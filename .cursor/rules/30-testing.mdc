@@ -12,4 +12,5 @@ globs:
 - **Markdown summary**: `npm run report:md` reads `test-results/report.json` → `reports/summary.md`.
 - **Plans** live in `tests/plans/`; **specs** in `tests/e2e/` and `tests/api/`.
 - Use stable selectors (`getByRole`, `getByTestId`); avoid brittle CSS-only locators when avoidable.
+- **Exception (example branch only):** `example/the-internet-e2e` may include **documented fragile blocks** behind `RUN_FRAGILE_E2E=1` to practice HEAL on awkward UIs — see `BRANCHING.md`.
 - Failures: use trace/screenshot settings already in `playwright.config.ts`; heal by editing tests, not by MCP execution loops.
