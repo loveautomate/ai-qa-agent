@@ -4,7 +4,7 @@ Use when improving structure **without** breaking the demo or agent files.
 
 ---
 
-Refactor incrementally toward the target layout (`src/core`, `src/skills`, `tests/e2e`, `tests/api`, `tests/plans`, `reports`).
+Refactor incrementally toward the target layout (`src/core`, `src/skills`, `tests/e2e`, `tests/api`, `tests/plans`, `reports`). **Do not duplicate** the example-branch table — extend **[`BRANCHING.md`](../../BRANCHING.md)** instead.
 
 **Rules:**
 - Do **not** edit `.github/chatmodes/*.md` or `.vscode/mcp.json` unless there is no alternative.
