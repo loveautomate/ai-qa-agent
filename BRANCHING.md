@@ -33,3 +33,12 @@ On example branches, run the full suite:
 ```bash
 npm test
 ```
+
+## Publishing branches
+
+After local validation:
+
+```bash
+git push -u origin main
+git push -u origin example/saucedemo-e2e example/petstore-api examples/prd-scenarios
+```
