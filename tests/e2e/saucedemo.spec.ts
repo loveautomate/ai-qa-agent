@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Plan: tests/plans/saucedemo-plan.md
- * IDs in comments map to plan sections (AUTH-*, CAT-*, CART-*, CHK-*).
+ * IDs: AUTH-*, CAT-*, CART-*, CHK-*
  */
 const BASE = 'https://www.saucedemo.com';
 
@@ -14,7 +14,6 @@ async function loginAs(page: import('@playwright/test').Page, username: string, 
 }
 
 test.describe('Saucedemo — AUTH', () => {
-  // AUTH-OK
   test('AUTH-OK — successful login shows inventory and product cards', async ({ page }) => {
     await loginAs(page, 'standard_user', 'secret_sauce');
     await expect(page.locator('[data-test="inventory-container"]')).toBeVisible();
@@ -25,14 +24,12 @@ test.describe('Saucedemo — AUTH', () => {
     ).toBeVisible();
   });
 
-  // AUTH-BAD-PWD
   test('AUTH-BAD-PWD — wrong password shows error', async ({ page }) => {
     await loginAs(page, 'standard_user', 'wrong_password');
     await expect(page.locator('[data-test="error"]')).toContainText(/Epic sadface|do not match/i);
     await expect(page.locator('[data-test="inventory-container"]')).not.toBeVisible();
   });
 
-  // AUTH-LOCKED
   test('AUTH-LOCKED — locked out user cannot access inventory', async ({ page }) => {
     await loginAs(page, 'locked_out_user', 'secret_sauce');
     await expect(page.locator('[data-test="error"]')).toContainText(/locked/i);
@@ -45,17 +42,23 @@ test.describe('Saucedemo — CAT catalog', () => {
     await loginAs(page, 'standard_user', 'secret_sauce');
   });
 
-  // CAT-SORT
   test('CAT-SORT — changing sort order changes first product', async ({ page }) => {
     const sort = page.locator('select.product_sort_container');
     await expect(sort).toBeVisible();
-    const firstBefore = await page.locator('[data-test="inventory-item"]').first().locator('.inventory_item_name').textContent();
+    const firstBefore = await page
+      .locator('[data-test="inventory-item"]')
+      .first()
+      .locator('.inventory_item_name')
+      .textContent();
     await sort.selectOption('za');
-    const firstAfter = await page.locator('[data-test="inventory-item"]').first().locator('.inventory_item_name').textContent();
+    const firstAfter = await page
+      .locator('[data-test="inventory-item"]')
+      .first()
+      .locator('.inventory_item_name')
+      .textContent();
     expect(firstAfter).not.toBe(firstBefore);
   });
 
-  // CAT-MULTI + CART-BADGE
   test('CAT-MULTI / CART-BADGE — two items, cart badge shows 2', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
@@ -71,7 +74,6 @@ test.describe('Saucedemo — CART', () => {
     await loginAs(page, 'standard_user', 'secret_sauce');
   });
 
-  // CART-ADD-REMOVE
   test('CART-ADD-REMOVE — remove item empties cart', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
@@ -79,7 +81,6 @@ test.describe('Saucedemo — CART', () => {
     await expect(page.locator('[data-test="shopping-cart-badge"]')).not.toBeVisible();
   });
 
-  // CART-CONTINUE
   test('CART-CONTINUE — continue shopping then second item', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
@@ -98,7 +99,6 @@ test.describe('Saucedemo — CHK checkout', () => {
     await page.locator('[data-test="checkout"]').click();
   });
 
-  // CHK-VAL-EMPTY
   test('CHK-VAL-EMPTY — cannot continue checkout with empty fields', async ({ page }) => {
     await page.locator('[data-test="continue"]').click();
     await expect(page.locator('[data-test="checkout-info-container"]')).toBeVisible();
@@ -106,7 +106,6 @@ test.describe('Saucedemo — CHK checkout', () => {
     await expect(page).toHaveURL(/checkout-step-one/);
   });
 
-  // CHK-HAPPY (full flow from checkout step)
   test('CHK-HAPPY — complete checkout after valid info', async ({ page }) => {
     await page.locator('[data-test="firstName"]').fill('Ada');
     await page.locator('[data-test="lastName"]').fill('Lovelace');
