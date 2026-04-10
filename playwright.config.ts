@@ -11,7 +11,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   reporter: [
-    ['html'],
+    // open: 'never' — default 'on-failure' starts a local server and blocks the terminal until Ctrl+C
+    ['html', { open: 'never' }],
     ['json', { outputFile: 'test-results/report.json' }],
   ],
 
