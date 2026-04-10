@@ -103,6 +103,12 @@ sequenceDiagram
 - **Terminal exploration** — Use **`playwright-cli`** only if you want shell-driven browsing; still **encode** behavior in specs and **run** with **`npm test`**.
 - **Both** — MCP plus occasional CLI is fine; **execution** of the suite remains **`npx playwright test`**.
 
+**Official “coding agents” demo** ([Getting started CLI](https://playwright.dev/docs/getting-started-cli)) suggests prompts like:
+
+> Use playwright skills to test https://demo.playwright.dev/todomvc/. Take screenshots for all successful and failing scenarios.
+
+That fits this framework as **exploration only**: run `npm run playwright:skills`, then drive **`playwright-cli`** in the terminal (snapshots and `screenshot` commands write compact artifacts to disk—often **smaller context** than repeatedly pasting large MCP accessibility trees into chat, but not always; see the table above). **Failing scenarios in CI** should still be **Playwright Test** runs with `screenshot` / trace from `playwright.config.ts`, not a substitute suite built only from CLI. After exploring TodoMVC, **promote** the flow into **`tests/e2e/*.spec.ts`** and **`npm test`**.
+
 ---
 
 ## `main`, a feature branch, and prompts
