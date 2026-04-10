@@ -39,5 +39,5 @@ This repository uses **Cursor rules**, **MCP**, **skills**, and **Playwright Tes
 
 ## Branches
 
-- **`main`:** Framework template only (see `BRANCHING.md`).
-- **Example branches:** Contain real `tests/plans/`, `tests/e2e/`, and/or `tests/api/` for Sauce Demo and Petstore.
+- **`main`:** Framework template only (see **`BRANCHING.md`**).
+- **Example branches:** Real `tests/plans/`, `tests/e2e/`, and/or `tests/api/` — Sauce Demo, **The Internet** (fragile/heal practice), Petstore, and combined PRD scenarios. Details in **`BRANCHING.md`**.

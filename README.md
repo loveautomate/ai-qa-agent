@@ -114,7 +114,7 @@ sequenceDiagram
 | 3. Plan | In Cursor, @-mention or paste **[`.cursor/prompts/plan.prompt.md`](.cursor/prompts/plan.prompt.md)** and describe the URL/API → produce **`tests/plans/<something>.md`**. |
 | 4. Implement | Ask the agent to follow **[`.cursor/rules/00-orchestrator.mdc`](.cursor/rules/00-orchestrator.mdc)** (PLAN → DEVELOP → …) and add **`tests/e2e/*.spec.ts`** or **`tests/api/*.spec.ts`**. All real actions run via **`npm test`**, not MCP clicks. |
 | 5. Refactor | Use **[`.cursor/prompts/refactor.prompt.md`](.cursor/prompts/refactor.prompt.md)** when moving or splitting tests. |
-| 6. Examples | Check out **`example/saucedemo-e2e`**, **`example/petstore-api`**, or **`examples/prd-scenarios`** for filled plans + specs ([`BRANCHING.md`](BRANCHING.md)). |
+| 6. Examples | See **[`BRANCHING.md`](BRANCHING.md)** for all reference branches (Sauce Demo, **The Internet** fragile/heal playground, Petstore, PRD combo). |
 
 **Example ask:** “Using @plan.prompt.md, plan login + cart for https://example.com, then add Playwright tests under `tests/e2e/` on this branch.”
 
@@ -122,12 +122,7 @@ sequenceDiagram
 
 ## Branches (reference)
 
-| Branch | Role |
-|--------|------|
-| **`main`** | Framework + seed only |
-| **`example/saucedemo-e2e`** | UI demo ([Sauce Demo](https://www.saucedemo.com/)) |
-| **`example/petstore-api`** | API demo ([Petstore](https://petstore.swagger.io/)) |
-| **`examples/prd-scenarios`** | Both demos + plans |
+**[`BRANCHING.md`](BRANCHING.md)** lists every example branch (including **`example/the-internet-e2e`** for [The Internet](https://the-internet.herokuapp.com/) — optional **`RUN_FRAGILE_E2E=1`** for anti-pattern / heal practice). **`main`** stays framework + seed only.
 
 ---
 
@@ -154,7 +149,9 @@ npm test                    # on main: seed only; example branches hit live site
 
 Run one project: `npx playwright test --project=e2e`.
 
-Reporters: **HTML** (`playwright-report/`) and **JSON** (`test-results/report.json`). From JSON, generate a table:
+Reporters: **HTML** (`playwright-report/`) and **JSON** (`test-results/report.json`). The HTML reporter uses **`open: 'never'`** so the CLI **does not** start a blocking “Serving HTML report…” server (the default `on-failure` would hang the terminal after failures). View manually: `npx playwright show-report`.
+
+**Test plans & execution reports:** Conventions for every suite are in **[`docs/test-plans.md`](docs/test-plans.md)** (standard test case fields, Playwright title pattern `CASE-ID — …`, and how reports map to plans). Copy **[`docs/test-plan-template.md`](docs/test-plan-template.md)** into `tests/plans/` when adding a plan. From JSON, generate **`reports/summary.md`** with QA-style columns: **steps** (plan path + case ID), **expected** (from title after `—`), **actual**, **status**, **comment**. Default plan path in the report is **`docs/test-plans.md`**; override with **`REPORT_PLAN_PATH`** (e.g. `tests/plans/saucedemo-plan.md` on a feature branch) so the “Steps” column points at the right file.
 
 ```bash
 npm run report:md      # → reports/summary.md (ignored by git)
@@ -165,7 +162,7 @@ npm run test:report    # tests, then summary
 
 ## Layout (on `main`)
 
-`.cursor/rules`, `.cursor/skills`, `.cursor/prompts/`, `.agents/skills/playwright-cli/`, `tests/{seed,e2e,api,plans}/`, `src/*`, `reports/`.
+`.cursor/rules`, `.cursor/skills`, `.cursor/prompts/`, `.agents/skills/playwright-cli/`, `docs/test-plans.md`, `tests/{seed,e2e,api,plans}/`, `src/*`, `reports/`.
 
 ## Playwright Test Agents (chatmodes)
 
@@ -181,7 +178,7 @@ npm run test:report    # tests, then summary
 
 ```bash
 git push -u origin main
-git push -u origin example/saucedemo-e2e example/petstore-api examples/prd-scenarios
+git push -u origin example/saucedemo-e2e example/the-internet-e2e example/petstore-api examples/prd-scenarios
 ```
 
 ---
