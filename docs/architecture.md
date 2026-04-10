@@ -22,7 +22,7 @@ flowchart TB
 
   subgraph out["Outputs"]
     HTML["HTML report"]
-    MD["reports/*.md"]
+    MD["reports/summary.md<br/>+ tests/plans/*"]
     JSON["report.json"]
   end
 

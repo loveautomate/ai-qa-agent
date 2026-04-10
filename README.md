@@ -154,7 +154,9 @@ npm test                    # on main: seed only; example branches hit live site
 
 Run one project: `npx playwright test --project=e2e`.
 
-Reporters: **HTML** (`playwright-report/`) and **JSON** (`test-results/report.json`). From JSON, generate a table:
+Reporters: **HTML** (`playwright-report/`) and **JSON** (`test-results/report.json`). The HTML reporter uses **`open: 'never'`** so the CLI **does not** start a blocking “Serving HTML report…” server (the default `on-failure` would hang the terminal after failures). View manually: `npx playwright show-report`.
+
+**Test plans & execution reports:** Shared conventions for every suite live in **`tests/plans/README.md`** (standard test case fields, Playwright title pattern `CASE-ID — …`, and how reports map to plans). Copy **`tests/plans/TEST-PLAN-TEMPLATE.md`** when adding a new plan. From JSON, generate **`reports/summary.md`** with QA-style columns: **steps** (plan path + case ID), **expected** (from title after `—`), **actual**, **status**, **comment**. Default plan path in the report is `tests/plans/README.md`; override with **`REPORT_PLAN_PATH`** (e.g. `tests/plans/saucedemo-plan.md` on a feature branch) so the “Steps” column points at the right file.
 
 ```bash
 npm run report:md      # → reports/summary.md (ignored by git)
@@ -165,7 +167,7 @@ npm run test:report    # tests, then summary
 
 ## Layout (on `main`)
 
-`.cursor/rules`, `.cursor/skills`, `.cursor/prompts/`, `.agents/skills/playwright-cli/`, `tests/{seed,e2e,api,plans}/`, `src/*`, `reports/`.
+`.cursor/rules`, `.cursor/skills`, `.cursor/prompts/`, `.agents/skills/playwright-cli/`, `tests/{seed,e2e,api,plans}/` (see `tests/plans/README.md`), `src/*`, `reports/`.
 
 ## Playwright Test Agents (chatmodes)
 
