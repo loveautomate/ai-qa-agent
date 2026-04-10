@@ -15,7 +15,7 @@ You are planning tests for the AI QA Agent demo. **Do not execute test scenarios
 
 **Constraints:**
 
-- Default demo targets when unspecified: Sauce Demo, Petstore, or [The Internet](https://the-internet.herokuapp.com/) (see `BRANCHING.md` for branches).
+- Default demo targets when unspecified: Sauce Demo or Petstore (see `BRANCHING.md` for branches).
 - Every scenario must be implementable later as **Playwright CLI tests** only.
 - Use Playwright test titles in the form **`CASE-ID — short expected behavior`** so `npm run report:md` can map runs to the plan.
 

@@ -58,7 +58,6 @@ If a phase is skipped, include the section and say “skipped”.
 ### Phase 4 – HEAL
 - Diagnose using logs, traces, and **read-only** MCP inspection where helpful.
 - Apply fixes in **test code**; re-run via **CLI**.
-- On **`example/the-internet-e2e`**, optional **`RUN_FRAGILE_E2E=1`** runs **intentionally brittle** checks (tight timeouts, weak CSS) to practice healing **buggy or awkward apps** — see `BRANCHING.md`.
 
 ### Phase 5 – REPORT
 - Summarize in Markdown; save to `reports/{project-name}-report.md`.
