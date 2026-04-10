@@ -114,7 +114,7 @@ sequenceDiagram
 | 3. Plan | In Cursor, @-mention or paste **[`.cursor/prompts/plan.prompt.md`](.cursor/prompts/plan.prompt.md)** and describe the URL/API → produce **`tests/plans/<something>.md`**. |
 | 4. Implement | Ask the agent to follow **[`.cursor/rules/00-orchestrator.mdc`](.cursor/rules/00-orchestrator.mdc)** (PLAN → DEVELOP → …) and add **`tests/e2e/*.spec.ts`** or **`tests/api/*.spec.ts`**. All real actions run via **`npm test`**, not MCP clicks. |
 | 5. Refactor | Use **[`.cursor/prompts/refactor.prompt.md`](.cursor/prompts/refactor.prompt.md)** when moving or splitting tests. |
-| 6. Examples | See **[`BRANCHING.md`](BRANCHING.md)** for all reference branches (Sauce Demo, **The Internet** fragile/heal playground, Petstore, PRD combo). |
+| 6. Examples | See **[`BRANCHING.md`](BRANCHING.md)** for reference branches (Sauce Demo UI, Petstore API, PRD combo). |
 
 **Example ask:** “Using @plan.prompt.md, plan login + cart for https://example.com, then add Playwright tests under `tests/e2e/` on this branch.”
 
@@ -122,7 +122,7 @@ sequenceDiagram
 
 ## Branches (reference)
 
-**[`BRANCHING.md`](BRANCHING.md)** lists every example branch (including **`example/the-internet-e2e`** for [The Internet](https://the-internet.herokuapp.com/) — optional **`RUN_FRAGILE_E2E=1`** for anti-pattern / heal practice). **`main`** stays framework + seed only.
+**[`BRANCHING.md`](BRANCHING.md)** lists the example branches for **stable, passing** UI and API demos. **`main`** stays framework + seed only.
 
 ---
 
@@ -178,7 +178,7 @@ npm run test:report    # tests, then summary
 
 ```bash
 git push -u origin main
-git push -u origin example/saucedemo-e2e example/the-internet-e2e example/petstore-api examples/prd-scenarios
+git push -u origin example/saucedemo-e2e example/petstore-api examples/prd-scenarios
 ```
 
 ---
