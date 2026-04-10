@@ -48,7 +48,7 @@ flowchart LR
   T["playwright test"] --> J["JSON reporter<br/>test-results/report.json"]
   T --> H["HTML reporter<br/>playwright-report/"]
   J --> G["node src/reporting/generate-report.mjs"]
-  G --> M["reports/summary.md"]
+  G --> M["reports/summary.md<br/>plan ref + expected/actual/status"]
 ```
 
 ## 4. Chatmodes vs this repository
