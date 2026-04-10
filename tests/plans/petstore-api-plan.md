@@ -20,6 +20,6 @@
 
 **Steps:**
 
-1. `GET /pet/{invalidId}` where id is extremely unlikely to exist.
+1. Create a pet, `DELETE /pet/{id}`, then `GET /pet/{id}`.
 
-**Expected:** 404.
+**Expected:** `GET` returns **404** (pet no longer exists).
