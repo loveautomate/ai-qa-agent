@@ -1,15 +1,15 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
  * Builds reports/summary.md from Playwright JSON reporter output.
  * Run after: npx playwright test (with json reporter enabled in playwright.config.ts)
  *
- * Conventions: tests/plans/README.md (test case + report format). Set REPORT_PLAN_PATH to a
+ * Conventions: docs/test-plans.md (test case + report format). Set REPORT_PLAN_PATH to a
  * feature plan (e.g. tests/plans/saucedemo-plan.md) so "Steps" links to the right file.
  *
  * Env:
  *   PLAYWRIGHT_JSON_REPORT — default test-results/report.json
  *   REPORT_MD_OUT          — default reports/summary.md
- *   REPORT_PLAN_PATH       — path for "Steps to reproduce" column (default tests/plans/README.md)
+ *   REPORT_PLAN_PATH       — path for "Steps to reproduce" column (default docs/test-plans.md)
  *   REPORT_MD_INCLUDE_RAW  — set to "1" to append a debug table of full Playwright titles
  */
 
@@ -23,7 +23,7 @@ const root = path.resolve(__dirname, '..', '..');
 const jsonPath = process.env.PLAYWRIGHT_JSON_REPORT || path.join(root, 'test-results', 'report.json');
 const outPath = process.env.REPORT_MD_OUT || path.join(root, 'reports', 'summary.md');
 const planPath =
-  process.env.REPORT_PLAN_PATH || path.join('tests', 'plans', 'README.md');
+  process.env.REPORT_PLAN_PATH || path.join('docs', 'test-plans.md');
 
 /** Split Playwright test title like "AUTH-OK — description" → plan ref + short expected hint. */
 function parseTitle(specTitle) {
@@ -160,11 +160,11 @@ function main() {
   const lines = [
     '# Test execution report',
     '',
-    'Structured like a manual test report: **steps** point at the Markdown plan (see `tests/plans/README.md`); **expected** comes from the test title; **actual** and **status** come from this Playwright run.',
+    'Structured like a manual test report: **steps** point at the Markdown plan (see `docs/test-plans.md`); **expected** comes from the test title; **actual** and **status** come from this Playwright run.',
     '',
     '| Field | Source |',
     '|-------|--------|',
-    '| Steps to reproduce | `REPORT_PLAN_PATH` (default: `tests/plans/README.md`) + **Test case ID** |',
+    '| Steps to reproduce | `REPORT_PLAN_PATH` (default: `docs/test-plans.md`) + **Test case ID** |',
     '| Expected result | Short hint parsed from spec title (after `—`); full detail in the feature plan |',
     '| Actual result | Outcome of this run (pass message or error text) |',
     '| Status | Playwright result status |',

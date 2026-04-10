@@ -8,8 +8,8 @@ You are planning tests for the AI QA Agent demo. **Do not execute test scenarios
 
 **Goal:** Produce a Markdown plan saved under `tests/plans/` that follows repository conventions:
 
-- Read **`tests/plans/README.md`** for standard test case fields and traceability rules.
-- Start from **`tests/plans/TEST-PLAN-TEMPLATE.md`** (duplicate and rename, e.g. `<feature>-plan.md`).
+- Read **`docs/test-plans.md`** for standard test case fields and traceability rules.
+- Start from **`docs/test-plan-template.md`** (duplicate into `tests/plans/` and rename, e.g. `<feature>-plan.md`).
 - Include scope, assumptions, preconditions, **numbered steps to reproduce**, **expected results**, placeholders for actual/status/comment after execution, and a traceability matrix.
 - Reference seed `tests/seed.spec.ts` where applicable.
 

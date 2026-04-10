@@ -17,7 +17,7 @@
 
 ## How each test case is documented
 
-Every scenario below uses the same fields: **Test case ID**, **Priority**, **Preconditions**, **Steps to reproduce**, **Expected result**, **Actual result**, **Status**, **Comment** (see [`README.md`](README.md) in this folder).
+Every scenario below uses the same fields: **Test case ID**, **Priority**, **Preconditions**, **Steps to reproduce**, **Expected result**, **Actual result**, **Status**, **Comment** (see [test-plans.md](test-plans.md) in `docs/`).
 
 ---
 
@@ -85,5 +85,12 @@ Not executed
 
 ```bash
 npx playwright test --project=e2e   # or api / seed as appropriate
-npm run report:md                     # after setting REPORT_PLAN_PATH to this file if needed
+```
+
+Set `REPORT_PLAN_PATH` to this file when generating `reports/summary.md` (see [test-plans.md](test-plans.md)):
+
+```bash
+# PowerShell: $env:REPORT_PLAN_PATH = "tests/plans/<this-file>.md"; npm run report:md
+# Unix: REPORT_PLAN_PATH=tests/plans/<this-file>.md npm run report:md
+npm run report:md
 ```
