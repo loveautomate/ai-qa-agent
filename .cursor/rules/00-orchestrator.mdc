@@ -22,6 +22,7 @@ MCP configuration (do not change without cause):
 | Layer | Responsibility |
 |--------|----------------|
 | **MCP (Playwright MCP)** | UI understanding: snapshots, accessibility tree, screenshots when needed, network/console signals. **Suggest** actions and locators. **Do not** use MCP as the execution engine for test scenarios. |
+| **`playwright-cli`** (`@playwright/cli`, skill under `.agents/skills/playwright-cli/`) | Optional **terminal** browser automation for exploration; token-efficient vs large MCP schemas. **Not** a substitute for checked-in Playwright Test suites. |
 | **Skills** (`.cursor/skills/`) | Reusable workflows, inputs/outputs, conventions. |
 | **Playwright Test (CLI)** | **All** deterministic UI/API execution: `npx playwright test`. |
 | **Reports** | Human-readable outputs under `reports/`. |

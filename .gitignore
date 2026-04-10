@@ -57,5 +57,8 @@ tmp/
 temp/
 *.tmp
 
+# Generated Markdown summary (from npm run report:md)
+reports/summary.md
+
 # Reports (optional - uncomment if you don't want to track reports)
 # reports/

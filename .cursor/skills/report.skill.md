@@ -9,14 +9,13 @@ Produce a **consistent Markdown test report** after CLI runs, suitable for demos
 - Scope: URLs under test, suite name, git ref if relevant
 
 ## Outputs
-- `reports/{project-name}-report.md`
-- Short executive summary + bullet results + failures + next steps
+- `reports/summary.md` — generated via `npm run report:md` (reads `test-results/report.json` from the JSON reporter).
+- Hand-written `reports/{project-name}-report.md` for stakeholder narratives when needed.
 
 ## Logic
-1. Record scope and environment (browser project, date).
-2. Summarize results from **CLI output** (not from MCP).
-3. List failures with file/line and suspected cause.
-4. Note any healing or follow-ups.
+1. Run tests: `npm test` or `npm run test:report` (tests + `summary.md`).
+2. Summarize results from **JSON reporter / CLI** (not from MCP).
+3. For custom reports: scope, git ref, link to `playwright-report/` HTML.
 
 ## Notes
-- HTML reporter output remains the source of detailed artifacts; Markdown report is the narrative layer.
+- HTML reporter remains the detailed artifact; `summary.md` is a quick, diff-friendly table.
