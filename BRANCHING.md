@@ -13,24 +13,10 @@ Use `main` as the base when starting tests for a new site or API.
 | Branch | Purpose |
 |--------|---------|
 | **`example/saucedemo-e2e`** | Stable UI E2E against [Sauce Demo](https://www.saucedemo.com/) (login, cart, checkout). |
-| **`example/the-internet-e2e`** | UI E2E against [The Internet](https://the-internet.herokuapp.com/) — **mixes stable checks with optional fragile / anti-pattern blocks** (`RUN_FRAGILE_E2E=1`) for **heal** practice on buggy or awkward UIs. |
 | **`example/petstore-api`** | HTTP API tests against [Swagger Petstore](https://petstore.swagger.io/). |
 | **`examples/prd-scenarios`** | Combined PRD-style demo: multiple plans + tests. |
 
-### Fragile / “buggy SUT” workflow (`example/the-internet-e2e`)
-
-[The Internet](https://the-internet.herokuapp.com/) is a **deliberately varied** playground (dynamic content, auth, etc.). On this branch:
-
-- **Default `npm test`:** runs **deterministic** specs that should pass on a healthy network.
-- **Optional:** set `RUN_FRAGILE_E2E=1` to run extra tests that use **brittle locators, tight timeouts, or missing waits** — useful to practice **Phase 4 – HEAL** (expect failures or flakes until you fix selectors and assertions).
-
-```bash
-# Unix / macOS / Git Bash
-RUN_FRAGILE_E2E=1 npx playwright test --project=e2e
-
-# Windows PowerShell
-$env:RUN_FRAGILE_E2E = "1"; npx playwright test --project=e2e
-```
+Demos focus on **reliable, passing** UI and API checks (no intentionally failing or “fragile playground” suites in-repo).
 
 ## Workflow
 
@@ -56,5 +42,5 @@ npm test
 
 ```bash
 git push -u origin main
-git push -u origin example/saucedemo-e2e example/the-internet-e2e example/petstore-api examples/prd-scenarios
+git push -u origin example/saucedemo-e2e example/petstore-api examples/prd-scenarios
 ```
