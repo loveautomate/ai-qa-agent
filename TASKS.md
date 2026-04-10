@@ -5,7 +5,10 @@
 - `.cursor/` rules, skills, prompts; `AGENTS.md`, `PRD.md`, `BRANCHING.md`.
 - Folder scaffold; `npm test` → Playwright CLI.
 - **`main` = framework-only:** generic `tests/seed.spec.ts`, no site-specific suites on default branch.
-- **Branches:** `example/saucedemo-e2e`, `example/petstore-api`, `examples/prd-scenarios` — reference tests + plans (see `BRANCHING.md`).
+- **Branches (create locally / push):**
+  - `example/saucedemo-e2e` — `tests/plans/saucedemo-plan.md`, `tests/e2e/saucedemo.spec.ts`
+  - `example/petstore-api` — `tests/plans/petstore-api-plan.md`, `tests/api/petstore.spec.ts`
+  - `examples/prd-scenarios` — merge of both (full PRD demo)
 
 ## Next
 
