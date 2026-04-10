@@ -4,7 +4,7 @@
 **Type:** UI / browser (Playwright `e2e` project)  
 **Automation:** `tests/e2e/saucedemo.spec.ts`  
 **Related report:** After `npm test`, set `REPORT_PLAN_PATH` to this file and run `npm run report:md` → `reports/summary.md` (machine **actual result** / **status** per test).  
-**Repository conventions:** [`README.md`](README.md) (shared test case fields, title pattern `CASE-ID — …`).
+**Repository conventions:** [`docs/test-plans.md`](../docs/test-plans.md) (shared test case fields, title pattern `CASE-ID — …`).
 
 ---
 
@@ -539,6 +539,6 @@ $env:REPORT_PLAN_PATH = "tests/plans/saucedemo-plan.md"; npm run report:md
 REPORT_PLAN_PATH=tests/plans/saucedemo-plan.md npm run report:md
 ```
 
-If `REPORT_PLAN_PATH` is unset, the generator defaults to `tests/plans/README.md` (see repository-wide conventions).
+If `REPORT_PLAN_PATH` is unset, the generator defaults to `docs/test-plans.md` (see repository-wide conventions).
 
 MCP may be used during **authoring** only; execution is **Playwright Test CLI** as above.

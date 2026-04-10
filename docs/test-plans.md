@@ -1,12 +1,14 @@
-# Test plans (repository convention)
+# Test plans and execution reports
 
-All feature and regression plans live under `tests/plans/` as Markdown. Use the same structure for **every** suite (E2E, API, or mixed) so plans stay comparable and line up with **`reports/summary.md`** from `npm run report:md`.
+Feature and regression **plans** live under `tests/plans/` as Markdown (e.g. `tests/plans/<feature>-plan.md`). Use the same structure for **every** suite (E2E, API, or mixed) so plans stay comparable and line up with **`reports/summary.md`** from `npm run report:md`.
+
+**Blank plan:** duplicate [`test-plan-template.md`](test-plan-template.md) into `tests/plans/` and rename.
 
 ---
 
 ## Standard test case fields
 
-Use these fields in every scenario (copy from [`TEST-PLAN-TEMPLATE.md`](TEST-PLAN-TEMPLATE.md)):
+Use these fields in every scenario:
 
 | Field | Purpose |
 |-------|--------|
@@ -30,7 +32,7 @@ Name tests so the ID is easy to parse and trace:
 
 The JSON → Markdown step (`node src/reporting/generate-report.mjs`) reads the part **before** `—` as **Test case ID** and the part after as a short **Expected result** hint. Full criteria stay in your plan file.
 
-**Steps to reproduce** in `reports/summary.md` point at a plan file. By default the generator uses **`tests/plans/README.md`** (this file). For a feature-specific plan, set:
+**Steps to reproduce** in `reports/summary.md` point at a Markdown file. By default the generator uses **`docs/test-plans.md`** (this guide) as the path in the report. For a feature-specific plan, set:
 
 ```bash
 # Windows PowerShell
@@ -51,6 +53,6 @@ Optional: `REPORT_MD_INCLUDE_RAW=1` appends a debug table of full Playwright tit
 | Pattern | Use |
 |---------|-----|
 | `tests/plans/<feature>-plan.md` | Human-readable plan for a URL, service, or epic. |
-| [`TEST-PLAN-TEMPLATE.md`](TEST-PLAN-TEMPLATE.md) | Empty shell; duplicate per feature. |
+| [`test-plan-template.md`](test-plan-template.md) | Empty shell; copy into `tests/plans/` per feature. |
 
-Example branches may add plans such as `saucedemo-plan.md` or `petstore-api-plan.md`; **main** keeps only shared conventions and this index.
+Example branches may add plans such as `saucedemo-plan.md` or `petstore-api-plan.md`; **main** may ship only the shared docs above plus `tests/plans/.gitkeep` until a plan is added.
