@@ -1,6 +1,6 @@
 # AI QA Agent — documentation diagrams
 
-Mermaid sources for architecture and flows. GitHub renders these in the web UI; use the same blocks in [`README.md`](../README.md) for the overview. Example branches and **The Internet** fragile/heal workflow: [`BRANCHING.md`](../BRANCHING.md).
+Mermaid sources for architecture and flows. GitHub renders these in the web UI; use the same blocks in [`README.md`](../README.md) for the overview. Example branches: [`BRANCHING.md`](../BRANCHING.md).
 
 | Doc | Contents |
 |-----|----------|

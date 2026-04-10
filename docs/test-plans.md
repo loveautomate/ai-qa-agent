@@ -55,4 +55,4 @@ Optional: `REPORT_MD_INCLUDE_RAW=1` appends a debug table of full Playwright tit
 | `tests/plans/<feature>-plan.md` | Human-readable plan for a URL, service, or epic. |
 | [`test-plan-template.md`](test-plan-template.md) | Empty shell; copy into `tests/plans/` per feature. |
 
-Example branches add plans such as `saucedemo-plan.md`, **`the-internet-plan.md`** ([The Internet](https://the-internet.herokuapp.com/) — includes notes on **fragile** / **heal** scenarios), or `petstore-api-plan.md`. **main** ships only the shared docs above plus `tests/plans/.gitkeep` until a plan is added — see **[`BRANCHING.md`](../BRANCHING.md)**.
+Example branches add plans such as `saucedemo-plan.md` or `petstore-api-plan.md`. **main** ships only the shared docs above plus `tests/plans/.gitkeep` until a plan is added — see **[`BRANCHING.md`](../BRANCHING.md)**.
