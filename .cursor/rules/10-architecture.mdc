@@ -1,0 +1,33 @@
+---
+alwaysApply: true
+---
+# Architecture – layers
+
+## Data flow
+
+```text
+MCP (analysis / UI understanding / suggestions)
+  → Skills (reusable workflows, contracts)
+  → Playwright tests (deterministic execution via CLI)
+  → Reports (Markdown / HTML from Playwright + summaries)
+```
+
+## Folder roles
+
+| Path | Role |
+|------|------|
+| `src/core/` | Shared types, small orchestration helpers (no browser I/O). |
+| `src/skills/` | Code backing for skill contracts when needed (keep thin). |
+| `src/services/` | External integrations (API clients, file I/O helpers). |
+| `src/reporting/` | Report builders, merge CLI output with narrative summaries. |
+| `tests/e2e/` | UI tests only. |
+| `tests/api/` | API tests only. |
+| `tests/plans/` | Generated or hand-written test plans. |
+| `tests/seed.spec.ts` | Demo seed file (keep path stable for agent examples). |
+| `reports/` | Generated reports for demos and CI artifacts as needed. |
+
+## Anti-patterns
+
+- Clicking or typing through MCP to “run” a test case instead of running `npx playwright test`.
+- Putting non-deterministic AI execution inside `tests/**/*.spec.ts`.
+- Mixing “plan” and “execute” in the same artifact without a clear boundary.

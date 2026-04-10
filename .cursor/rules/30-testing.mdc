@@ -1,0 +1,13 @@
+---
+description: Playwright tests and plans
+globs:
+  - "tests/**/*"
+  - "playwright.config.ts"
+---
+
+# Testing
+
+- **Execution**: always via Playwright Test CLI (`npm test` / `npx playwright test`). CI uses the same.
+- **Plans** live in `tests/plans/`; **specs** in `tests/e2e/` and `tests/api/`.
+- Use stable selectors (`getByRole`, `getByTestId`); avoid brittle CSS-only locators when avoidable.
+- Failures: use trace/screenshot settings already in `playwright.config.ts`; heal by editing tests, not by MCP execution loops.

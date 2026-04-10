@@ -1,0 +1,13 @@
+---
+description: Refactors and incremental migration
+globs:
+  - "src/**/*"
+  - "tests/**/*"
+---
+
+# Refactor
+
+- Prefer **small, verifiable steps**; keep demo targets (saucedemo, petstore) working.
+- Do **not** rename or rewrite `.github/chatmodes/*.md` or `.vscode/mcp.json` unless unavoidable.
+- When splitting modules, preserve public behavior of scripts and npm commands.
+- After structural moves, run `npx playwright test` and fix imports/paths before declaring done.

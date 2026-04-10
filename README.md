@@ -2,20 +2,19 @@
 
 [![Playwright Tests](https://github.com/loveautomate/testagentdemo/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/loveautomate/testagentdemo/actions/workflows/playwright.yml)
 
-This repository demonstrates **Agentic QA Workflow** using:
+This repository is a **framework** for running an AI QA Agent (Cursor + Playwright MCP for analysis + **Playwright CLI** for execution) against **any** site or API.
 
-- Playwright Test  
-- Playwright AI Agents (Planner, Generator, Healer)  
-- Cursor AI Orchestration  
-
-The workflow performs:
+The workflow is:
 
 > PLAN → DEVELOP → TEST → HEAL → REPORT
 
-for two demo targets:
+**Branching:** `main` holds only the template (rules, config, seed test). Reference implementations that prove everything works live on:
 
-- UI E2E: https://www.saucedemo.com/
-- API: https://petstore.swagger.io/
+- `example/saucedemo-e2e` — browser E2E ([Sauce Demo](https://www.saucedemo.com/))
+- `example/petstore-api` — API tests ([Petstore](https://petstore.swagger.io/))
+- `examples/prd-scenarios` — both (full PRD-style demo)
+
+Details: [`BRANCHING.md`](BRANCHING.md).
 
 ---
 
@@ -28,9 +27,9 @@ npx playwright init-agents --loop=vscode
 
 Files:
 
-- `.github/chatmodes/planner.chatmode.md`
-- `.github/chatmodes/generator.chatmode.md`
-- `.github/chatmodes/healer.chatmode.md`
+- `.github/chatmodes/ 🎭 planner.chatmode.md`
+- `.github/chatmodes/🎭 generator.chatmode.md`
+- `.github/chatmodes/🎭 healer.chatmode.md`
 - `.vscode/mcp.json` *(adjusted for Cursor)*
 
 Cursor orchestrator rule uses these as authoritative definitions.
@@ -44,13 +43,15 @@ Inside Cursor, run commands such as:
 - **"Run the TestAgentDemo loop for saucedemo"**  
 - **"Plan → Generate → Test → Heal → Report petstore API"**  
 
-The TestAgentDemo orchestrator will then:
+The orchestrator (see `.cursor/rules/00-orchestrator.mdc` and `AGENTS.md`) will then:
 
 1. PLAN → Create test plan in `tests/plans/*.md`
 2. DEVELOP → Generate Playwright tests into `tests/e2e/` or `tests/api/`
-3. TEST → Ask to run `npx playwright test`
-4. HEAL → Suggest minimal fixes based on failures
+3. TEST → Run **`npm test`** or `npx playwright test` (CLI only—MCP is for analysis, not execution)
+4. HEAL → Suggest minimal fixes based on failures; re-run via CLI
 5. REPORT → Produce a Markdown test report in `reports/*.md`
+
+Project docs: `PRD.md`, `TASKS.md`, `AGENTS.md`. Target layout includes `src/core`, `src/services`, `src/reporting`, and `.cursor/skills/`.
 
 ---
 
@@ -58,7 +59,7 @@ The TestAgentDemo orchestrator will then:
 
 ```bash
 npm install
-npx playwright test
+npm test
 ```
 
 ---

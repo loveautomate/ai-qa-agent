@@ -1,0 +1,14 @@
+---
+description: Coding standards for src/ and test helpers
+globs:
+  - "src/**/*"
+  - "tests/**/*.ts"
+---
+
+# Coding
+
+- TypeScript, match existing style; no unnecessary abstractions.
+- **Tests** (`tests/**/*.spec.ts`): Playwright API only; deterministic assertions; no LLM calls.
+- **Library code** (`src/`): pure functions where possible; side effects isolated (e.g. services).
+- Prefer explicit file names and one concern per module.
+- Reuse helpers under `src/core/` rather than duplicating long selectors in every spec (when introduced).

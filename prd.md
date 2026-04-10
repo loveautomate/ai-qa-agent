@@ -1,60 +1,38 @@
-# PRD – TestAgentDemo
+# PRD – AI QA Agent (framework + examples)
 
 ## Purpose
 
-Demonstrate a simple, minimal Agentic QA Workflow using:
+This repository provides a **reusable AI QA Agent framework** (Cursor rules, skills, Playwright Test CLI, reporting layout) suitable for **any** website or API.
 
-- Playwright AI agents (Planner, Generator, Healer)
-- Cursor orchestrator rule
-- Public demo targets:
-  - https://www.saucedemo.com/ (UI)
-  - https://petstore.swagger.io/ (API)
+Reference demos for validation live on **git branches** (see `BRANCHING.md`):
 
-The workflow must automatically generate:
+- UI: [Sauce Demo](https://www.saucedemo.com/) — branch `example/saucedemo-e2e`
+- API: [Swagger Petstore](https://petstore.swagger.io/) — branch `example/petstore-api`
+- Combined: `examples/prd-scenarios`
 
-- Test plans
-- Playwright tests
-- Healing suggestions
-- Execution reports
+## Deliverables (framework)
 
----
+- Test plans (`tests/plans/*.md`) — produced per project/branch
+- Playwright tests (`tests/e2e/`, `tests/api/`)
+- Markdown reports (`reports/*.md`)
+- Execution **only** via Playwright CLI (`npm test`)
 
-## Demo Scope
+## Example scope (on scenario branches)
 
 ### UI (Saucedemo)
-Demonstrate:
-- Successful login
-- Failed login
-- Add to cart
-- Checkout flow
-- Example of healing a failing selector
+
+- Successful login, failed login
+- Add to cart, checkout flow
 
 ### API (Petstore)
-Demonstrate:
-- CRUD operations for `/pet`
-- Smoke test
+
+- CRUD smoke for `/pet`
 - One negative test
-- API healing example (wrong field / incorrect assertion)
 
----
+## Success criteria
 
-## Out of Scope
-- CI/CD
-- Data seeding
-- Configurable environments
-- Authentication-tied flows
-- Complex reporting dashboards
+1. `main` runs a minimal deterministic suite (seed).
+2. Example branches run full scenario suites against public targets.
+3. No MCP execution inside tests; CLI-only automation.
 
----
-
-## Success Criteria
-
-During the live demo, TestAgentDemo should:
-
-1. Automatically generate a test plan (`tests/plans/*.md`)
-2. Automatically generate Playwright tests
-3. Execute tests via Playwright
-4. Heal at least one failing test
-5. Produce a clean Markdown report in `reports/*.md`
-
-Nothing manually coded beyond this PRD, README, and one Cursor rule.
+See `TASKS.md` and `BRANCHING.md` for status and branch layout.
