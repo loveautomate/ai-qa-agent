@@ -17,6 +17,12 @@ This repository uses **Cursor rules**, **MCP**, **skills**, and **Playwright Tes
 - **Role:** Reusable workflow contracts (login, API, reporting)—inputs, outputs, deterministic steps for **tests and plans**.
 - **Not:** Runtime code unless mirrored under `src/skills/` when you add implementations.
 
+## Playwright CLI skills (`.agents/skills/playwright-cli/`)
+
+- **Install / refresh:** `npm run playwright:skills` (runs `playwright-cli install --skills agents` from `@playwright/cli`).
+- **Role:** Official command reference and patterns for **terminal** `playwright-cli` usage (see `SKILL.md` + `references/`).
+- **Project pointer:** `.cursor/skills/playwright-cli.skill.md` ties this to repo rules (tests still run via `npm test`).
+
 ## Playwright Test (CLI)
 
 - **Role:** **Only** execution layer for UI and API automation.

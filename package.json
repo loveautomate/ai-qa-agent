@@ -4,13 +4,17 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
-    "test:cli": "npx playwright test"
+    "test:cli": "npx playwright test",
+    "test:report": "npx playwright test && node src/reporting/generate-report.mjs",
+    "report:md": "node src/reporting/generate-report.mjs",
+    "playwright:skills": "playwright-cli install --skills agents"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@playwright/cli": "^0.1.6",
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.1"
   }
