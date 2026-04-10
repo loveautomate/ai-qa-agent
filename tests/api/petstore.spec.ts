@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 
+/**
+ * Plan: tests/plans/petstore-api-plan.md
+ * IDs: PET-*
+ */
 const BASE = 'https://petstore.swagger.io/v2';
 
 /** Petstore often returns ids outside JS safe integer range; use a client id for stable GET/DELETE URLs. */
@@ -8,7 +12,7 @@ function uniquePetId(): number {
 }
 
 test.describe('Petstore — /pet', () => {
-  test('CRUD smoke', async ({ request }) => {
+  test('PET-CRUD — create read update delete smoke', async ({ request }) => {
     const petId = uniquePetId();
     const name = `ai-qa-agent-dog-${Date.now()}`;
     const createRes = await request.post(`${BASE}/pet`, {
@@ -42,7 +46,7 @@ test.describe('Petstore — /pet', () => {
     expect(delRes.ok()).toBeTruthy();
   });
 
-  test('negative: GET after DELETE returns 404', async ({ request }) => {
+  test('PET-NEG-404 — GET after DELETE returns 404', async ({ request }) => {
     const petId = uniquePetId();
     const createRes = await request.post(`${BASE}/pet`, {
       data: {
