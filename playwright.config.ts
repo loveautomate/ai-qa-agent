@@ -7,6 +7,9 @@ import { defineConfig, devices } from '@playwright/test';
 const DEMO_E2E_BASE_URL = 'https://www.saucedemo.com/';
 const DEMO_API_BASE_URL = 'https://petstore.swagger.io/v2';
 
+/** `npm run test:report` sets this: full trace + video + screenshots for HTML report viewers. */
+const reportAll = process.env.PW_REPORT_ALL === '1';
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  * UI (`e2e-chromium`) and API (`api`) are separate projects with distinct timeouts and base URLs.
@@ -17,10 +20,16 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: reportAll
+    ? [
+        ['list'],
+        ['html', { open: 'always', title: 'AI QA Agent — traces & video' }],
+      ]
+    : 'html',
   use: {
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
+    trace: reportAll ? 'on' : 'retain-on-failure',
+    screenshot: reportAll ? 'on' : 'only-on-failure',
+    video: reportAll ? 'on' : 'off',
   },
 
   projects: [

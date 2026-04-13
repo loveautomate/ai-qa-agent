@@ -20,7 +20,7 @@ for two demo targets:
 - UI E2E: https://www.saucedemo.com/
 - API: https://petstore.swagger.io/
 
-**Project brain:** [`AGENTS.md`](AGENTS.md) (orchestrator path, PRD, `.agent/` layout).
+**Project brain:** [`AGENTS.md`](AGENTS.md) (orchestrator path, PRD, `.agent/` layout, **branching**: framework on `main`, demo plans/specs/reports may live on feature branches only).
 
 ---
 
@@ -62,7 +62,7 @@ The AI QA Agent orchestrator will then:
 3. **TEST** — Run or request `npm test` / `npx playwright test`
 4. **HEAL** — Suggest minimal fixes based on failures (per `healer.chatmode.md`)
 5. **REPORT** — Produce a Markdown test report in `reports/*.md`
-6. **VALIDATE** — **You** manually re-run and debug tests (UI: `npm run test:e2e`, API: `npm run test:api`); use **playwright-cli** (see `.claude/skills/playwright-cli/`) and `npx playwright test --debug` / `--ui` as needed. The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change, **update the test plan** and run **PLAN → … → VALIDATE** again until green.
+6. **VALIDATE** — The agent typically runs **`npm run test:report`** (full e2e **trace + video + screenshots**, opens HTML report) and may suggest **`npm run test:api`** / **`npm test`**. **playwright-cli** is **optional** for extra debugging (see `.claude/skills/playwright-cli/`). The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change or you extend coverage, **update the test plan** and run **PLAN → … → VALIDATE** again until you are satisfied.
 
 ---
 
@@ -76,6 +76,15 @@ npm run test:api         # API tests under tests/api/
 npm run test:smoke       # tests tagged @smoke
 # CI parity: npm run test:ci
 ```
+
+**Validation with full evidence (trace + video + screenshots + HTML report):**
+
+```bash
+npm run test:clean       # remove test-results/, playwright-report/, blob-report/
+npm run test:report      # clean, then e2e with PW_REPORT_ALL=1, open report in browser
+```
+
+Re-open the last report anytime: `npx playwright show-report`.
 
 **Base URLs** for the bundled demos live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`) so they are easy to edit in source (including by an AI agent). Pointing at another site (e.g. staging or `example.com`) means changing those constants and **updating tests + `tests/plans/*.md`** — the current specs target Saucedemo and Petstore only.
 

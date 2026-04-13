@@ -70,7 +70,7 @@ During the live demo, AI QA Agent should:
 3. Execute tests via Playwright
 4. Heal at least one failing test
 5. Produce a clean Markdown report in `reports/*.md`
-6. **VALIDATE** — User manually re-runs and debugs (UI + API); uses [playwright-cli](https://playwright.dev/docs/getting-started-cli) skills (`.claude/skills/playwright-cli/`); agent asks questions and collects feedback; any test change implies **plan update** + full loop from **PLAN** onward
+6. **VALIDATE** — Agent runs **`npm run test:report`** (or `test:clean` + e2e with full **trace, video, screenshot** via `PW_REPORT_ALL=1`) when appropriate so the user gets an HTML report with embedded viewers; user may also run `npm run test:e2e`, `npm run test:api`, or `npm test`. **[playwright-cli](https://playwright.dev/docs/getting-started-cli)** is **optional** for deeper debugging (`.claude/skills/playwright-cli/`). Agent asks questions and collects feedback. **Any test change or scope extension** implies **updating `tests/plans/*.md`** and re-running **PLAN → … → VALIDATE** until the user is **fully satisfied**.
 
 Baseline documentation: this PRD, root `README.md`, `.cursor/rules/orchestrator.mdc`, Playwright chatmodes, `.agent/skills/playwright-cli.md`, `.claude/skills/playwright-cli/`.
 
@@ -84,12 +84,13 @@ These are practical next steps for a production-oriented setup (this repo stays 
 |------|------------|----------------|
 | **Execution** | Add npm scripts for targeted runs (`test:e2e`, `test:api`, grep by tag) and document them in the orchestrator rule. | **Done:** `test`, `test:ci`, `test:e2e`, `test:api`, `test:smoke` (`@smoke`); orchestrator updated. |
 | **Data & env** | Demo base URLs live in `playwright.config.ts` (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`) for easy edits; avoid real credentials in generated tests. | **Done:** constants in config; no `dotenv` for targets. |
-| **Traceability** | Link each spec to a plan section ID; store traces/screenshots as CI artifacts (workflow already uploads HTML report). | **Partial:** Comment template in `tests/e2e/seed.spec.ts` and `tests/api/petstore-smoke.spec.ts`. CI uploads `playwright-report/`, `test-results/` (traces/screenshots on failure), and `reports/` in one artifact (`playwright-ci-bundle`). |
+| **Traceability** | Link each spec to a plan section ID; store traces/screenshots as CI artifacts (workflow already uploads HTML report). | **Partial:** Comment template in UI/API specs; CI uploads `playwright-report/`, `test-results/` (traces/screenshots on failure), and `reports/` in one artifact (`playwright-ci-bundle`). |
 | **Flakes** | Standardize on `expect` auto-waiting, `toPass` retries for known flaky UI, and avoid discouraged waits (see healer chatmode). | **Guidance:** Follow `.github/chatmodes/healer.chatmode.md`; add `expect.poll` / `toPass` in specs when needed. |
 | **API testing** | Use `request` fixture for Petstore-style APIs; keep UI and API suites in separate projects with distinct timeouts. | **Done:** Projects `e2e-chromium` vs `api`; API timeout 60s; sample `tests/api/petstore-smoke.spec.ts`. |
 | **Governance** | Pin MCP and Node LTS in docs; schedule periodic `npm audit` and Playwright minor upgrades. | **Partial:** `package.json` `engines.node` `>=20`; README MCP pinning note; run `npm audit` and bump `@playwright/test` on a schedule. |
 | **Reporting** | Merge Markdown reports with CI `playwright-report` artifact for a single audit trail. | **Done:** Single artifact includes HTML report, `test-results/`, and `reports/` (when present). |
-| **VALIDATE + playwright-cli** | Phase 6: human-in-the-loop; [Coding agents](https://playwright.dev/docs/getting-started-cli) skills under `.claude/skills/`; `npm run playwright-cli:skills`. | **Done:** orchestrator, `.agent/skills/playwright-cli.md`, tracked skill bundle. |
+| **VALIDATE + evidence** | Phase 6: run **`npm run test:report`** for e2e with trace + video + screenshots + HTML report; **`npm run test:clean`** clears old artifacts. playwright-cli optional for debugging. | **Done:** `package.json` scripts, `PW_REPORT_ALL` in `playwright.config.ts`, `scripts/playwright-*.cjs`. |
+| **VALIDATE + playwright-cli** | Optional: [Coding agents](https://playwright.dev/docs/getting-started-cli) skills under `.claude/skills/`; `npm run playwright-cli:skills`. | **Done:** orchestrator, `.agent/skills/playwright-cli.md`, tracked skill bundle. |
 
 ---
 

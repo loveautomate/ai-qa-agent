@@ -91,6 +91,13 @@ Targeted runs (see `package.json`):
 - `npm run test:api` — API tests, project `api`
 - `npm run test:smoke` — grep tag `@smoke`
 
+**Rich evidence for review (screenshots + video + traces + HTML report):** when you need to validate execution with full artifacts, run:
+
+- `npm run test:clean` — delete prior `test-results/`, `playwright-report/`, `blob-report/`
+- `npm run test:report` — runs `test:clean`, then e2e with `PW_REPORT_ALL=1` (trace, video, screenshot **on**), then opens the Playwright HTML report in the browser
+
+Use **`test:report`** during **Phase 3** or **Phase 6** when the user wants to inspect timing, UI, or attachments without extra flags.
+
 If the user must run tests outside the agent, ask them to run the appropriate command and share the output.
 
 After you have results (terminal output or pasted log):
@@ -134,16 +141,26 @@ Recommend saving to:
 
 ## Phase 6 – VALIDATE (human in the loop)
 
-**Purpose:** After the Markdown report exists, the **user** manually re-runs, debugs, and adjusts tests with help from **[playwright-cli](https://playwright.dev/docs/getting-started-cli)** (skill: `.claude/skills/playwright-cli/SKILL.md`, reference: `.agent/skills/playwright-cli.md`). Applies to **both UI** (`tests/e2e/`, `npm run test:e2e`) and **API** (`tests/api/`, `npm run test:api`).
+**Purpose:** Confirm results against the plan and evidence. Prefer **automated evidence** first, then optional interactive debugging.
+
+**Default validation run (agent should execute when the user asks to validate, review traces, or confirm tests):**
+
+1. `npm run test:report` — full UI e2e artifacts (screenshots, video, traces) and opens the HTML report (see `package.json`).  
+2. Optionally also `npm run test:api` and/or `npm test` if API coverage matters for the request.
+
+**playwright-cli** (`.claude/skills/playwright-cli/SKILL.md`, `.agent/skills/playwright-cli.md`) is **optional**: use it for exploratory debugging (`open`, `snapshot`, `attach` with `--debug=cli`), not required for every validation.
 
 **You (the agent) must:**
 
-- Give **example prompts** the user can paste (playwright-cli + `npx playwright test --debug` / `--ui` / targeted runs).
+- When validating, **run** `npm run test:report` (or `test:clean` then `test:report`) in the integrated terminal when you have shell access, unless the user forbids it or only API tests apply (then run `npm run test:api` / `npm test` as appropriate).
+- Give **example prompts** for optional **playwright-cli** + `npx playwright test --debug` / `--ui` when deeper investigation is needed.
 - **Ask** whether they have **questions** about UI vs API validation, traces, or the report.
 - **Ask for feedback** (pass/fail vs report, what broke, what they changed).
-- If **tests or specs change**: insist they **update `tests/plans/*.md`**, then re-run the **full loop** from **PLAN** → … → **VALIDATE** until tests pass.
+- If **tests or specs change**: **update `tests/plans/*.md`** to match, then re-run the **full loop** from **PLAN** → **DEVELOP** → **TEST** → **HEAL** → **REPORT** → **VALIDATE** until the user is **fully satisfied**.
 
-**The user** manually runs commands in the terminal; you do not treat VALIDATE as complete without their **explicit OK** (or clear stop).
+**Extending or improving tests:** Any request to add scenarios, change assertions, or refactor specs is treated as a **scope change**. You **must** update the relevant **`tests/plans/*.md`** (scenarios, § IDs, traceability) and execute **all six phases** again, iterating until the user confirms they are satisfied.
+
+**The user** may run commands locally as well; you do not treat VALIDATE as complete without their **explicit OK** (or clear stop).
 
 ---
 
@@ -158,5 +175,7 @@ You must support prompts such as:
 - “Create final report for [https://example.com]”
 - “**VALIDATE** — I’ll re-run UI and API tests; give me playwright-cli examples and questions”
 - “I changed a test — **update the plan** and **re-run the full loop**”
+- “**Validate** with full traces/video” / “run **`npm run test:report`**”
+- “**Extend** coverage for [feature]” (→ update plan + all phases until satisfied)
 
 Always orchestrate, NEVER override Playwright chatmode logic.
