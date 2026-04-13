@@ -10,6 +10,8 @@
 
 **Demo base URLs:** `playwright.config.ts` — `DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL` (edit in source when changing targets).
 
+**E2E spec naming:** `tests/e2e/{target}.spec.ts` (e.g. `saucedemo.spec.ts`). Avoid redundant filename tags such as `-bdd`; express style in `test.step` / plans, not in the file name.
+
 **Evidence:** After a run, open the Playwright report with `npx playwright show-report`, or open `playwright-report/index.html`. Markdown summaries live under `reports/` when generated.
 
 **Extending or changing tests:** Update **`tests/plans/*.md`** and re-run **PLAN → DEVELOP → TEST → HEAL → REPORT → VALIDATE** until the user is satisfied (orchestrator).

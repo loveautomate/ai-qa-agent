@@ -86,6 +86,8 @@ npm run test:report      # clean, then e2e with PW_REPORT_ALL=1, open report in 
 
 Re-open the last report anytime: `npx playwright show-report`.
 
+**UI spec files** live under `tests/e2e/` and are named by target (e.g. `saucedemo.spec.ts`). Do not put style tags like `-bdd` in the filename — see [`.agent/docs/prd.md`](.agent/docs/prd.md).
+
 **Base URLs** for the bundled demos live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`) so they are easy to edit in source (including by an AI agent). Pointing at another site (e.g. staging or `example.com`) means changing those constants and **updating tests + `tests/plans/*.md`** — the current specs target Saucedemo and Petstore only.
 
 Targeted runs: `npm run test:e2e`, `npm run test:api`, `npm run test:smoke` (see [`.agent/docs/prd.md`](.agent/docs/prd.md) for the full agentic QA roadmap).

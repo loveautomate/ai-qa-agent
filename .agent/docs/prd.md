@@ -21,6 +21,7 @@ The workflow must automatically generate:
 **Test design / reporting (quality bar):**
 
 - UI automation may use **BDD-style** structure (`test.step`, feature-oriented `describe`) and **traceability** from plan section IDs (§) to tests.
+- **E2E spec file names:** Use the target or feature, e.g. `tests/e2e/saucedemo.spec.ts`. Do **not** encode style in the filename (avoid suffixes like `-bdd`); keep Given/When/Then in `test.step` and the plan doc instead.
 - Markdown execution summaries in `reports/` should follow an **ISTQB-aligned** shape where practical: references, environment, metrics, results, incidents/limitations, conclusions, and links to **Playwright HTML** evidence (`playwright-report/index.html` or `npx playwright show-report`).
 
 ---
