@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Test group', () => {
+/**
+ * Plan ref: link UI specs to `tests/plans/*-plan.md` section IDs when applicable.
+ */
+test.describe('@e2e', () => {
   test('seed', async ({ page }) => {
     // generate code here.
   });

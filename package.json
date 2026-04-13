@@ -1,14 +1,24 @@
 {
-  "name": "testagent",
+  "name": "ai-qa-agent",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:ci": "playwright test",
+    "test:e2e": "playwright test --project=e2e-chromium",
+    "test:api": "playwright test --project=api",
+    "test:smoke": "playwright test --grep @smoke"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@types/node": "^24.10.1"
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^24.10.1",
+    "dotenv": "^16.5.0"
   }
 }
