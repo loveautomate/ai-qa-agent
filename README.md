@@ -11,7 +11,9 @@ This repository demonstrates **Agentic QA Workflow** using:
 
 The workflow performs:
 
-> PLAN → DEVELOP → TEST → HEAL → REPORT
+> PLAN → DEVELOP → TEST → HEAL → REPORT → **VALIDATE**
+
+**playwright-cli:** [Coding agents](https://playwright.dev/docs/getting-started-cli) — default skills path: [`.claude/skills/playwright-cli/`](.claude/skills/playwright-cli/SKILL.md) (refresh: `npm run playwright-cli:skills`). Human-oriented notes: [`.agent/skills/playwright-cli.md`](.agent/skills/playwright-cli.md).
 
 for two demo targets:
 
@@ -50,7 +52,8 @@ The Cursor orchestrator rule treats these as authoritative. Regenerate with `ini
 Inside Cursor, run commands such as:
 
 - **"Run the AI QA Agent loop for saucedemo"**
-- **"Plan → Generate → Test → Heal → Report petstore API"**
+- **"Plan → Generate → Test → Heal → Report → Validate petstore API"**
+- **"VALIDATE — example playwright-cli prompts and questions for UI + API"**
 
 The AI QA Agent orchestrator will then:
 
@@ -59,6 +62,7 @@ The AI QA Agent orchestrator will then:
 3. **TEST** — Run or request `npm test` / `npx playwright test`
 4. **HEAL** — Suggest minimal fixes based on failures (per `healer.chatmode.md`)
 5. **REPORT** — Produce a Markdown test report in `reports/*.md`
+6. **VALIDATE** — **You** manually re-run and debug tests (UI: `npm run test:e2e`, API: `npm run test:api`); use **playwright-cli** (see `.claude/skills/playwright-cli/`) and `npx playwright test --debug` / `--ui` as needed. The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change, **update the test plan** and run **PLAN → … → VALIDATE** again until green.
 
 ---
 
@@ -73,7 +77,7 @@ npm run test:smoke       # tests tagged @smoke
 # CI parity: npm run test:ci
 ```
 
-Copy `.env.example` to `.env` and adjust URLs when you point tests at other environments. The Playwright config loads `.env` automatically via `dotenv`.
+**Base URLs** for the bundled demos live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`) so they are easy to edit in source (including by an AI agent). Pointing at another site (e.g. staging or `example.com`) means changing those constants and **updating tests + `tests/plans/*.md`** — the current specs target Saucedemo and Petstore only.
 
 Targeted runs: `npm run test:e2e`, `npm run test:api`, `npm run test:smoke` (see [`.agent/docs/prd.md`](.agent/docs/prd.md) for the full agentic QA roadmap).
 
@@ -175,9 +179,11 @@ Production-hardening ideas, implementation status, and next steps: **[`.agent/do
 | `AGENTS.md` | Short pointers for tools / agents (orchestrator, PRD, `.agent/`) |
 | `.cursor/rules/orchestrator.mdc` | **Orchestrator rule** (single copy; Cursor loads this) |
 | `.agent/skills/qa-workflow.md` | Short workflow skill for agents |
+| `.agent/skills/playwright-cli.md` | VALIDATE phase + pointers to **playwright-cli** |
+| `.claude/skills/playwright-cli/` | Default [playwright-cli](https://playwright.dev/docs/getting-started-cli) skills (`npm run playwright-cli:skills` to refresh) |
 | `.agent/docs/prd.md` | Product requirements and roadmap |
 | `.github/chatmodes/*.chatmode.md` | Planner / Generator / Healer definitions |
 | `.github/workflows/playwright.yml` | CI smoke run (Chromium) |
 | `.vscode/mcp.json` | Project MCP server for Playwright |
-| `.env.example` | Sample env vars; copy to `.env` (gitignored) |
+| `playwright.config.ts` | `DEMO_E2E_BASE_URL` / `DEMO_API_BASE_URL` for bundled demos |
 | `tests/` | Playwright tests (`e2e/` UI, `api/` REST) |

@@ -6,9 +6,6 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    env:
-      E2E_BASE_URL: https://www.saucedemo.com/
-      API_BASE_URL: https://petstore.swagger.io/v2
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4

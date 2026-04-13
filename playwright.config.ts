@@ -1,11 +1,11 @@
-import path from 'path';
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
 
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
-
-const e2eBaseURL = process.env.E2E_BASE_URL ?? 'https://www.saucedemo.com/';
-const apiBaseURL = process.env.API_BASE_URL ?? 'https://petstore.swagger.io/v2';
+/**
+ * Demo targets for this repo. Change these when pointing tests at another app or environment,
+ * then update specs and `tests/plans/*.md` to match (selectors, flows, API paths).
+ */
+const DEMO_E2E_BASE_URL = 'https://www.saucedemo.com/';
+const DEMO_API_BASE_URL = 'https://petstore.swagger.io/v2';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -29,7 +29,7 @@ export default defineConfig({
       testMatch: '**/e2e/**/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: e2eBaseURL,
+        baseURL: DEMO_E2E_BASE_URL,
         // Saucedemo and many apps use `data-test` (not default `data-testid`)
         testIdAttribute: 'data-test',
       },
@@ -39,7 +39,7 @@ export default defineConfig({
       testMatch: '**/api/**/*.spec.ts',
       timeout: 60_000,
       use: {
-        baseURL: apiBaseURL,
+        baseURL: DEMO_API_BASE_URL,
       },
     },
   ],
