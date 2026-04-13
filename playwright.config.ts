@@ -30,6 +30,8 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         baseURL: e2eBaseURL,
+        // Saucedemo and many apps use `data-test` (not default `data-testid`)
+        testIdAttribute: 'data-test',
       },
     },
     {
