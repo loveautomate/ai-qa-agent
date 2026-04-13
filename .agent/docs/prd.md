@@ -16,7 +16,7 @@ The workflow must automatically generate:
 - Playwright tests
 - Healing suggestions
 - Execution reports
-- A **VALIDATE** step after reporting: human-in-the-loop manual re-runs (UI + API), **playwright-cli** + skills under `.claude/skills/` (default from `install --skills`), feedback and questions; if tests change, **update the test plan** and re-run all phases (see orchestrator).
+- A **VALIDATE** step after reporting: for **UI e2e**, the agent **runs `npm run test:report` first** so validation starts from the **Playwright HTML report and traces** (then human review, optional **playwright-cli**, feedback); API work uses `npm run test:api` / `npm test` as appropriate; if tests change, **update the test plan** and re-run all phases (see orchestrator).
 
 **Test design / reporting (quality bar):**
 
@@ -71,7 +71,7 @@ During the live demo, AI QA Agent should:
 3. Execute tests via Playwright
 4. Heal at least one failing test
 5. Produce a clean Markdown report in `reports/*.md`
-6. **VALIDATE** — Agent runs **`npm run test:report`** (or `test:clean` + e2e with full **trace, video, screenshot** via `PW_REPORT_ALL=1`) when appropriate so the user gets an HTML report with embedded viewers; user may also run `npm run test:e2e`, `npm run test:api`, or `npm test`. **[playwright-cli](https://playwright.dev/docs/getting-started-cli)** is **optional** for deeper debugging (`.claude/skills/playwright-cli/`). Agent asks questions and collects feedback. **Any test change or scope extension** implies **updating `tests/plans/*.md`** and re-running **PLAN → … → VALIDATE** until the user is **fully satisfied**.
+6. **VALIDATE** — For **UI e2e**, agent **always runs `npm run test:report` first** (`test:clean` + full **trace, video, screenshot** via `PW_REPORT_ALL=1`); validation **starts** from the **HTML report and traces**, then Q&A. Add **`npm run test:api`** / **`npm test`** when API matters. **[playwright-cli](https://playwright.dev/docs/getting-started-cli)** is **optional after** report review. **Any test change or scope extension** implies **updating `tests/plans/*.md`** and re-running **PLAN → … → VALIDATE** until the user is **fully satisfied**.
 
 Baseline documentation: this PRD, root `README.md`, `.cursor/rules/orchestrator.mdc`, Playwright chatmodes, `.agent/skills/playwright-cli.md`, `.claude/skills/playwright-cli/`.
 
@@ -90,7 +90,7 @@ These are practical next steps for a production-oriented setup (this repo stays 
 | **API testing** | Use `request` fixture for Petstore-style APIs; keep UI and API suites in separate projects with distinct timeouts. | **Done:** Projects `e2e-chromium` vs `api`; API timeout 60s; sample `tests/api/petstore-smoke.spec.ts`. |
 | **Governance** | Pin MCP and Node LTS in docs; schedule periodic `npm audit` and Playwright minor upgrades. | **Partial:** `package.json` `engines.node` `>=20`; README MCP pinning note; run `npm audit` and bump `@playwright/test` on a schedule. |
 | **Reporting** | Merge Markdown reports with CI `playwright-report` artifact for a single audit trail. | **Done:** Single artifact includes HTML report, `test-results/`, and `reports/` (when present). |
-| **VALIDATE + evidence** | Phase 6: run **`npm run test:report`** for e2e with trace + video + screenshots + HTML report; **`npm run test:clean`** clears old artifacts. playwright-cli optional for debugging. | **Done:** `package.json` scripts, `PW_REPORT_ALL` in `playwright.config.ts`, `scripts/playwright-*.cjs`. |
+| **VALIDATE + evidence** | Phase 6 (UI e2e): **`npm run test:report` is mandatory first**; user analyzes HTML report + traces, then optional playwright-cli. **`npm run test:clean`** included in `test:report`. | **Done:** `package.json` scripts, `PW_REPORT_ALL` in `playwright.config.ts`, `scripts/playwright-*.cjs`, orchestrator rule. |
 | **VALIDATE + playwright-cli** | Optional: [Coding agents](https://playwright.dev/docs/getting-started-cli) skills under `.claude/skills/`; `npm run playwright-cli:skills`. | **Done:** orchestrator, `.agent/skills/playwright-cli.md`, tracked skill bundle. |
 
 ---

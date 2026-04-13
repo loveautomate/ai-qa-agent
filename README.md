@@ -62,7 +62,7 @@ The AI QA Agent orchestrator will then:
 3. **TEST** — Run or request `npm test` / `npx playwright test`
 4. **HEAL** — Suggest minimal fixes based on failures (per `healer.chatmode.md`)
 5. **REPORT** — Produce a Markdown test report in `reports/*.md`
-6. **VALIDATE** — The agent typically runs **`npm run test:report`** (full e2e **trace + video + screenshots**, opens HTML report) and may suggest **`npm run test:api`** / **`npm test`**. **playwright-cli** is **optional** for extra debugging (see `.claude/skills/playwright-cli/`). The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change or you extend coverage, **update the test plan** and run **PLAN → … → VALIDATE** again until you are satisfied.
+6. **VALIDATE** — For UI work, the agent **always runs `npm run test:report` first** (full e2e **trace + video + screenshots**, opens HTML report) so you **start from the report and traces**; then **`npm run test:api`** / **`npm test`** if needed. **playwright-cli** is **optional** after report review (see `.claude/skills/playwright-cli/`). The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change or you extend coverage, **update the test plan** and run **PLAN → … → VALIDATE** again until you are satisfied.
 
 ---
 

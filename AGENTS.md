@@ -1,9 +1,9 @@
 # AI QA Agent (repo hints)
 
-- **Orchestrator rule:** `.cursor/rules/orchestrator.mdc` (6 phases; **VALIDATE** uses **`npm run test:report`** for full evidence; **playwright-cli** optional)
+- **Orchestrator rule:** `.cursor/rules/orchestrator.mdc` (6 phases; **VALIDATE** **always starts** with **`npm run test:report`** for UI e2e so you review HTML report + **traces** first; **playwright-cli** optional after that)
 - **PRD / roadmap:** `.agent/docs/prd.md`
 - **Workflow skill note:** `.agent/skills/qa-workflow.md`
-- **VALIDATE — automated evidence:** `npm run test:clean` → `npm run test:report` (e2e: trace + video + screenshots, opens HTML report). See `package.json` and `playwright.config.ts` (`PW_REPORT_ALL`).
+- **VALIDATE — mandatory evidence (UI e2e):** Agent runs **`npm run test:report`** (`test:clean` + full artifacts + opens HTML report) **before** validate discussion; you start from the report and **trace** viewers. See `package.json` and `playwright.config.ts` (`PW_REPORT_ALL`).
 - **VALIDATE — optional debug:** `.agent/skills/playwright-cli.md` · **playwright-cli skills (default path):** `.claude/skills/playwright-cli/` (refresh: `npm run playwright-cli:skills`)
 
 **`.agent/`** holds `skills/` and `docs/` only.

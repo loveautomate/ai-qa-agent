@@ -4,12 +4,12 @@
 - **Installed skill (default path):** [`.claude/skills/playwright-cli/SKILL.md`](../../.claude/skills/playwright-cli/SKILL.md) — command reference and `references/`
 - **Refresh skills:** `npm run playwright-cli:skills` (runs `playwright-cli install --skills` into `.claude/skills/`)
 
-**Default validation evidence does not require playwright-cli.** Use **`npm run test:report`** (see `package.json`) for e2e runs with **trace, video, screenshots**, and the Playwright HTML report. Use **playwright-cli** when you need interactive exploration (`open`, `snapshot`, `attach` with `npx playwright test --debug=cli`).
+**Validation always begins with the Playwright report + traces, not playwright-cli.** The agent runs **`npm run test:report`** first for UI e2e (trace + video + screenshots + HTML report). Use **playwright-cli** only **after** that when you need interactive exploration (`open`, `snapshot`, `attach` with `npx playwright test --debug=cli`).
 
 ## Phase VALIDATE — what you do
 
-1. Prefer **`npm run test:report`** (or `test:clean` then `test:report`) for **UI e2e** validation with full artifacts. Run **`npm run test:api`** / **`npm test`** when API or full suite matters.
-2. **Optionally** use **`playwright-cli`** for exploratory steps (see SKILL.md): `open`, `snapshot`, `click`, etc., and **`npx playwright test --debug`** / **`--ui`** when debugging specs.
+1. **First:** Ensure **`npm run test:report`** has run; open the HTML report and review **traces** (and videos) per test. Run **`npm run test:api`** / **`npm test`** when API or full suite matters instead of or in addition to UI report.
+2. **Then optionally** use **`playwright-cli`** for exploratory steps (see SKILL.md): `open`, `snapshot`, `click`, etc., and **`npx playwright test --debug`** / **`--ui`** when debugging specs.
 3. **Ask the agent** if anything is unclear; **give feedback** on failures or report mismatches.
 4. If you **change tests** or extend scope: **update `tests/plans/*.md`**, then run the **full loop** from **PLAN** through **VALIDATE** again until satisfied.
 
