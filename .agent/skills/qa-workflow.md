@@ -14,7 +14,9 @@ Use this project’s **AI QA Agent** when you need plan → code → test → he
 2. **Develop** — Follow `generator.chatmode.md`; UI in `tests/e2e/`, API in `tests/api/`.
 3. **Test** — `npm test`, or `npm run test:e2e` / `test:api` / `test:smoke`.
 4. **Heal** — Follow `healer.chatmode.md` on failures.
-5. **Report** — Summarize in `reports/{name}-report.md`.
+5. **Report** — Summarize in `reports/{name}-report.md` (ISTQB-style sections + link to Playwright HTML under `playwright-report/`).
+
+**Automation style:** Prefer `test.step` for Given/When/Then readability in HTML reports; map scenarios to plan § IDs.
 
 ## References
 

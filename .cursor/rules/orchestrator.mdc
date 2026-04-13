@@ -70,6 +70,8 @@ Generate Playwright tests:
 - UI tests → `tests/e2e/*.spec.ts`
 - API tests → `tests/api/*.spec.ts`
 
+Prefer **BDD-style** clarity where it helps: `test.describe` by feature, and `test.step('Given …')` / `When …` / `Then …` so the Playwright HTML report reads as scenarios. Link to plan section IDs (§) in comments or titles.
+
 Show minimal diffs or full file content when needed.
 
 ---
@@ -111,12 +113,16 @@ Provide code snippets ready to paste.
 ---
 
 ## Phase 5 – REPORT
-Produce a short Markdown test report summarising:
-- Scope
-- Test results
-- Failures
-- Healing done
-- Final recommendations
+Produce a Markdown test report summarising (ISTQB-inspired structure is welcome, keep it proportionate):
+
+- Identifier / references (plan ID, spec paths, environment)
+- Executive summary (pass/fail outcome)
+- Scope and out-of-scope
+- Execution metrics (counts)
+- Detailed results / traceability (plan § ↔ tests)
+- Incidents, deviations, healing performed
+- Limitations and recommendations
+- **Appendix:** link to **Playwright HTML report** — path `playwright-report/index.html` (repo root) and/or command `npx playwright show-report`
 
 Recommend saving to:
 

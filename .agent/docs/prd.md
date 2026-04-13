@@ -17,6 +17,11 @@ The workflow must automatically generate:
 - Healing suggestions
 - Execution reports
 
+**Test design / reporting (quality bar):**
+
+- UI automation may use **BDD-style** structure (`test.step`, feature-oriented `describe`) and **traceability** from plan section IDs (§) to tests.
+- Markdown execution summaries in `reports/` should follow an **ISTQB-aligned** shape where practical: references, environment, metrics, results, incidents/limitations, conclusions, and links to **Playwright HTML** evidence (`playwright-report/index.html` or `npx playwright show-report`).
+
 ---
 
 ## Demo scope
@@ -30,6 +35,7 @@ Demonstrate:
 - Add to cart
 - Checkout flow
 - Example of healing a failing selector
+- **Advanced / mature paths** as the plan evolves (e.g. logout, sort, cart remove, validation), expressed in BDD-friendly automation
 
 ### API (Petstore)
 
