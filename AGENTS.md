@@ -1,5 +1,6 @@
 # AI QA Agent (repo hints)
 
+- **Architecture & folder map (Mermaid):** [README.md — Architecture](README.md#architecture)
 - **Orchestrator rule:** `.cursor/rules/orchestrator.mdc` (6 phases; **VALIDATE** **always starts** with **`npm run test:report`** for UI e2e so you review HTML report + **traces** first; **playwright-cli** optional after that)
 - **PRD / roadmap:** `.agent/docs/prd.md`
 - **Workflow skill note:** `.agent/skills/qa-workflow.md`
@@ -21,4 +22,4 @@
 ## Branching (framework vs demo content)
 
 - **`main`:** Test **framework** and agent docs — `playwright.config.ts`, `scripts/`, `package.json` test scripts, `.agent/`, `.cursor/rules/`, `README.md`, etc.
-- **Feature branches (e.g. `ui-test`):** Demo **plans**, **specs**, and **Markdown reports** for a given exercise may land here without merging those artifacts to `main`, so `main` stays a clean harness. Cherry-pick or merge **framework-only** commits to `main` when promoting tooling updates.
+- **Feature branches (e.g. `ui-test`, `api-test`):** Demo **plans**, **specs**, and **Markdown reports** for a given exercise may land here without merging those artifacts to `main`, so `main` stays a clean harness. Cherry-pick or merge **framework-only** commits to `main` when promoting tooling updates.

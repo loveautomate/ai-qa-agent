@@ -22,6 +22,7 @@ Use this project’s **AI QA Agent** when you need plan → code → test → he
 
 ## References
 
+- Overview (Mermaid architecture + folder map): [README.md](../../README.md#architecture)
 - Orchestrator: `.cursor/rules/orchestrator.mdc`
 - Requirements: `.agent/docs/prd.md`
 - MCP: `.vscode/mcp.json` (`playwright-test` server)
