@@ -22,6 +22,12 @@ for two demo targets:
 
 **Project brain:** [`AGENTS.md`](AGENTS.md) (orchestrator path, PRD, `.agent/` layout, **branching**: framework on `main`, demo plans/specs/reports may live on feature branches only).
 
+## Demo video
+
+GitHub READMEs do not render in-page YouTube iframes; use the preview below to open the video on YouTube.
+
+[![AI QA Agent — demo video](https://img.youtube.com/vi/DmqQSG5dN4o/hqdefault.jpg)](https://www.youtube.com/watch?v=DmqQSG5dN4o)
+
 ---
 
 ## Playwright agent files (chatmodes)
