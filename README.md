@@ -24,9 +24,25 @@ for two demo targets:
 
 ## Demo video
 
-GitHub READMEs do not render in-page YouTube iframes; use the preview below to open the video on YouTube.
+GitHub READMEs do not render in-page YouTube iframes or reliably embed `<video>` players. Use **links** and **clickable thumbnails** instead.
 
-[![AI QA Agent — demo video](https://img.youtube.com/vi/DmqQSG5dN4o/hqdefault.jpg)](https://www.youtube.com/watch?v=DmqQSG5dN4o)
+### YouTube
+
+[![AI QA Agent — demo on YouTube](https://img.youtube.com/vi/DmqQSG5dN4o/hqdefault.jpg)](https://www.youtube.com/watch?v=DmqQSG5dN4o)
+
+### Local MP4 (in this repository)
+
+These patterns work on GitHub: a **text link** and a **clickable poster image** that opens the MP4 file view (browser playback or download).
+
+Commit a short recording as **`docs/demo.mp4`**. GitHub [rejects files over 100 MB](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github) on normal Git; compress the video, split it, or use [Git LFS](https://git-lfs.github.com/) for larger assets. See [`docs/DEMO_VIDEO.md`](docs/DEMO_VIDEO.md).
+
+**Plain markdown link:**
+
+[Play demo video (MP4 in repo)](docs/demo.mp4)
+
+**Thumbnail image + link to the same MP4:**
+
+[![Open local demo MP4 on GitHub](docs/demo-poster.svg)](docs/demo.mp4)
 
 ---
 
