@@ -15,10 +15,7 @@ The workflow performs:
 
 **playwright-cli:** [Coding agents](https://playwright.dev/docs/getting-started-cli) — default skills path: [`.claude/skills/playwright-cli/`](.claude/skills/playwright-cli/SKILL.md) (refresh: `npm run playwright-cli:skills`). Human-oriented notes: [`.agent/skills/playwright-cli.md`](.agent/skills/playwright-cli.md).
 
-for two demo targets:
-
-- UI E2E: https://www.saucedemo.com/
-- API: https://petstore.swagger.io/
+On **`api-test`**, the bundled demo is **Petstore API** (`DEMO_API_BASE_URL` in `playwright.config.ts`). UI e2e uses a **placeholder** base URL (`example.com`) until you add your own UI specs and plans.
 
 **Project brain:** [`AGENTS.md`](AGENTS.md) (orchestrator path, PRD, `.agent/` layout, **branching**: framework on `main`, demo plans/specs/reports may live on feature branches only).
 
@@ -57,7 +54,6 @@ The Cursor orchestrator rule treats these as authoritative. Regenerate with `ini
 
 Inside Cursor, run commands such as:
 
-- **"Run the AI QA Agent loop for saucedemo"**
 - **"Plan → Generate → Test → Heal → Report → Validate petstore API"**
 - **"VALIDATE — example playwright-cli prompts and questions for UI + API"**
 
@@ -92,9 +88,9 @@ npm run test:report      # clean, then e2e with PW_REPORT_ALL=1, open report in 
 
 Re-open the last report anytime: `npx playwright show-report`.
 
-**UI spec files** live under `tests/e2e/` and are named by target (e.g. `saucedemo.spec.ts`). Do not put style tags like `-bdd` in the filename — see [`.agent/docs/prd.md`](.agent/docs/prd.md).
+**UI spec files** live under `tests/e2e/` and are named by target (e.g. `checkout.spec.ts`). Do not put style tags like `-bdd` in the filename — see [`.agent/docs/prd.md`](.agent/docs/prd.md).
 
-**Base URLs** for the bundled demos live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`) so they are easy to edit in source (including by an AI agent). Pointing at another site (e.g. staging or `example.com`) means changing those constants and **updating tests + `tests/plans/*.md`** — the current specs target Saucedemo and Petstore only.
+**Base URLs** live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`). On this branch the API demo is **Petstore**; change both constants and **`tests/plans/*.md`** when you point at other environments.
 
 Targeted runs: `npm run test:e2e`, `npm run test:api`, `npm run test:smoke` (see [`.agent/docs/prd.md`](.agent/docs/prd.md) for the full agentic QA roadmap).
 

@@ -4,7 +4,8 @@ import { defineConfig, devices } from '@playwright/test';
  * Demo targets for this repo. Change these when pointing tests at another app or environment,
  * then update specs and `tests/plans/*.md` to match (selectors, flows, API paths).
  */
-const DEMO_E2E_BASE_URL = 'https://www.saucedemo.com/';
+/** Placeholder when this branch has no bundled UI demo (`api-test` focuses on Petstore API). */
+const DEMO_E2E_BASE_URL = 'https://example.com/';
 /** Trailing `/` so `request.get('pet/1')` resolves under `/v2/` (Playwright URL merge). */
 const DEMO_API_BASE_URL = 'https://petstore.swagger.io/v2/';
 
@@ -40,7 +41,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         baseURL: DEMO_E2E_BASE_URL,
-        // Saucedemo and many apps use `data-test` (not default `data-testid`)
+        // Many apps use `data-test` (not default `data-testid`); adjust when targeting a real UI.
         testIdAttribute: 'data-test',
       },
     },

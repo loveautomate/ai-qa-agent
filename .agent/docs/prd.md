@@ -6,9 +6,7 @@ Demonstrate a simple, minimal Agentic QA Workflow using:
 
 - Playwright AI agents (Planner, Generator, Healer) in `.github/chatmodes/`
 - Cursor orchestrator rule (`.cursor/rules/orchestrator.mdc`)
-- Public demo targets:
-  - https://www.saucedemo.com/ (UI)
-  - https://petstore.swagger.io/ (API)
+- Public demo targets (this **`api-test`** branch): **Petstore API** — `https://petstore.swagger.io/` (see `tests/plans/petstore-plan.md`). UI e2e uses a placeholder `DEMO_E2E_BASE_URL` until a UI demo is added on another branch or locally.
 
 The workflow must automatically generate:
 
@@ -21,25 +19,18 @@ The workflow must automatically generate:
 **Test design / reporting (quality bar):**
 
 - UI automation may use **BDD-style** structure (`test.step`, feature-oriented `describe`) and **traceability** from plan section IDs (§) to tests.
-- **E2E spec file names:** Use the target or feature, e.g. `tests/e2e/saucedemo.spec.ts`. Do **not** encode style in the filename (avoid suffixes like `-bdd`); keep Given/When/Then in `test.step` and the plan doc instead.
+- **E2E spec file names:** Use the target or feature, e.g. `tests/e2e/checkout.spec.ts`. Do **not** encode style in the filename (avoid suffixes like `-bdd`); keep Given/When/Then in `test.step` and the plan doc instead.
 - Markdown execution summaries in `reports/` should follow an **ISTQB-aligned** shape where practical: references, environment, metrics, results, incidents/limitations, conclusions, and links to **Playwright HTML** evidence (`playwright-report/index.html` or `npx playwright show-report`).
 
 ---
 
 ## Demo scope
 
-### UI (Saucedemo)
+### UI E2E (other branches / optional)
 
-Demonstrate:
+Bundled UI e2e demos may live on branches such as `ui-test`, not on **`api-test`**. Add `tests/e2e/*.spec.ts` + `tests/plans/*-plan.md` when you introduce a UI target and set `DEMO_E2E_BASE_URL` accordingly.
 
-- Successful login
-- Failed login
-- Add to cart
-- Checkout flow
-- Example of healing a failing selector
-- **Advanced / mature paths** as the plan evolves (e.g. logout, sort, cart remove, validation), expressed in BDD-friendly automation
-
-### API (Petstore)
+### API (Petstore — this branch)
 
 Demonstrate:
 

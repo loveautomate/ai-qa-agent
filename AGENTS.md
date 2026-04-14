@@ -10,7 +10,7 @@
 
 **Demo base URLs:** `playwright.config.ts` — `DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL` (edit in source when changing targets).
 
-**E2E spec naming:** `tests/e2e/{target}.spec.ts` (e.g. `saucedemo.spec.ts`). Avoid redundant filename tags such as `-bdd`; express style in `test.step` / plans, not in the file name.
+**E2E spec naming:** `tests/e2e/{target}.spec.ts` (e.g. `checkout.spec.ts`). Avoid redundant filename tags such as `-bdd`; express style in `test.step` / plans, not in the file name. **`api-test` branch:** Petstore API demo; no bundled UI demo spec beyond `seed.spec.ts`.
 
 **Evidence:** After a run, open the Playwright report with `npx playwright show-report`, or open `playwright-report/index.html`. Markdown summaries live under `reports/` when generated.
 

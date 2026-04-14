@@ -30,7 +30,7 @@ Petstore API smoke tests **passed**. Project `api`: **4 passed**, **0 failed**.
 | Passed | 4 |
 | Failed | 0 |
 
-Full repo run (`npm test`, e2e + api): **9 passed** (5 e2e + 4 api).
+Full repo run (`npm test`, e2e + api): expect **5 passed** (1 e2e placeholder `seed` + 4 api) when only `tests/e2e/seed.spec.ts` ships for UI.
 
 ---
 
