@@ -5,7 +5,8 @@ import { defineConfig, devices } from '@playwright/test';
  * then update specs and `tests/plans/*.md` to match (selectors, flows, API paths).
  */
 const DEMO_E2E_BASE_URL = 'https://www.saucedemo.com/';
-const DEMO_API_BASE_URL = 'https://petstore.swagger.io/v2';
+/** Trailing `/` so `request.get('pet/1')` resolves under `/v2/` (Playwright URL merge). */
+const DEMO_API_BASE_URL = 'https://petstore.swagger.io/v2/';
 
 /** `npm run test:report` sets this: full trace + video + screenshots for HTML report viewers. */
 const reportAll = process.env.PW_REPORT_ALL === '1';
