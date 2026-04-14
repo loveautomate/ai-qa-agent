@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="Local demo video (MP4)">
-  <rect width="640" height="360" fill="#0d1117"/>
-  <rect x="2" y="2" width="636" height="356" rx="8" fill="none" stroke="#30363d" stroke-width="2"/>
-  <polygon points="280,130 280,230 380,180" fill="#58a6ff"/>
-  <text x="320" y="270" fill="#c9d1d9" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18">Local demo (MP4 in repo)</text>
-  <text x="320" y="300" fill="#8b949e" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">docs/demo.mp4 - link opens file on GitHub</text>
-</svg>
