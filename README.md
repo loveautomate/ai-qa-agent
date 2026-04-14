@@ -14,6 +14,8 @@ Agent-driven **PLAN → DEVELOP → TEST → HEAL → REPORT → VALIDATE** usin
 
 ### QA workflow
 
+Forward pass plus **feedback**: when validation fails, scope changes, or the user is not satisfied, **update the plan** and run the loop again (see orchestrator **VALIDATE**).
+
 ```mermaid
 flowchart LR
   A[PLAN] --> B[DEVELOP]
@@ -21,6 +23,22 @@ flowchart LR
   C --> D[HEAL]
   D --> E[REPORT]
   E --> F[VALIDATE]
+  F -->|feedback: revise plan & re-enter loop| A
+```
+
+### Git: commit, push, and `main`
+
+**Framework & CI** usually track **`main`**. **Demo-heavy work** (plans, specs, reports) often lives on **feature branches** (e.g. `ui-test`, `api-test`); merge or cherry-pick to `main` when promoting tooling-only changes.
+
+```mermaid
+flowchart TB
+  VAL[VALIDATE satisfied] --> CM[git commit]
+  CM --> PS[git push origin]
+  PS --> BR{Which branch?}
+  BR -->|feature demo| OF[origin/ui-test · api-test · …]
+  BR -->|framework on main| OM[origin/main]
+  OF -->|PR merge or cherry-pick| OM
+  OM --> CI[CI: .github/workflows]
 ```
 
 ### How pieces connect
