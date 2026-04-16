@@ -1,108 +1,199 @@
-# AI QA Agent - Agentic QA Workflow (Cursor + Playwright)
+# AI QA Agent — Agentic QA (Cursor + Playwright)
 
 [![Playwright Tests](https://github.com/loveautomate/ai-qa-agent/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/loveautomate/ai-qa-agent/actions/workflows/playwright.yml)
 
-This repository demonstrates **Agentic QA Workflow** using:
+Agent-driven **PLAN → DEVELOP → TEST → HEAL → REPORT → VALIDATE** using [Playwright Test](https://playwright.dev/docs/intro), **Planner / Generator / Healer** chatmodes (`.github/chatmodes/`), the [Playwright MCP](https://www.npmjs.com/package/@playwright/mcp), and Cursor rules (`.cursor/rules/orchestrator.mdc`).
 
-- [Playwright Test](https://playwright.dev/docs/intro) (`@playwright/test` **1.59.x**)
-- Playwright AI Agents (Planner, Generator, Healer) via chatmode definitions
-- [Playwright MCP](https://www.npmjs.com/package/@playwright/mcp) (`@playwright/mcp` — use `@latest` or pin a version for reproducibility)
-- Cursor AI orchestration (`.cursor/rules/orchestrator.mdc`)
+**More detail:** [`AGENTS.md`](AGENTS.md) · [Product / roadmap](.agent/docs/prd.md)
 
-The workflow performs:
+**playwright-cli:** [docs](https://playwright.dev/docs/getting-started-cli) · skills in [`.claude/skills/playwright-cli/`](.claude/skills/playwright-cli/SKILL.md) · `npm run playwright-cli:skills`
 
-> PLAN → DEVELOP → TEST → HEAL → REPORT → **VALIDATE**
+On **`api-test`**, the primary bundled demo is **Petstore API**; UI e2e uses a **placeholder** [example.com](https://example.com/) `baseURL` until you add your own UI specs. **`main`** / **`ui-test`** use Saucedemo for the sample UI flow.
 
-**playwright-cli:** [Coding agents](https://playwright.dev/docs/getting-started-cli) — default skills path: [`.claude/skills/playwright-cli/`](.claude/skills/playwright-cli/SKILL.md) (refresh: `npm run playwright-cli:skills`). Human-oriented notes: [`.agent/skills/playwright-cli.md`](.agent/skills/playwright-cli.md).
+---
 
-On **`api-test`**, the bundled demo is **Petstore API** (`DEMO_API_BASE_URL` in `playwright.config.ts`). UI e2e uses a **placeholder** base URL (`example.com`) until you add your own UI specs and plans.
+## Architecture
 
-**Project brain:** [`AGENTS.md`](AGENTS.md) (orchestrator path, PRD, `.agent/` layout, **branching**: framework on `main`, demo plans/specs/reports may live on feature branches only).
+### QA workflow
+
+Forward pass plus **feedback**: when validation fails, scope changes, or the user is not satisfied, **update the plan** and run the loop again (see orchestrator **VALIDATE**).
+
+```mermaid
+flowchart LR
+  A[PLAN] --> B[DEVELOP]
+  B --> C[TEST]
+  C --> D[HEAL]
+  D --> E[REPORT]
+  E --> F[VALIDATE]
+  F -->|feedback: revise plan & re-enter loop| A
+```
+
+### Sequence diagram (agentic loop + VALIDATE gate)
+
+Interaction-level view: **VALIDATE** is its own step to the right of **`npm test`**; the human reviews evidence and signs off or sends feedback.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant A as AI QA Agent
+  participant M as Playwright MCP
+  participant S as Test specs
+  participant N as npm test
+  participant V as VALIDATE
+
+  U->>A: Goal
+  A->>M: Snapshot / analyze UI
+  M-->>A: Locators & structure
+  A->>S: Write / edit tests
+  A->>N: Run suite
+  N-->>A: Results + HTML report
+
+  U->>A: Failures → heal
+  A->>M: Inspect UI
+  M-->>A: Heal context
+  A->>S: Minimal fixes
+  A->>N: Re-run until green
+
+  A-->>U: Markdown report (reports/)
+
+  Note over A,V: Human in the loop
+  A->>V: Evidence + Q&A (HTML report, traces)
+  U->>V: Review & sign-off
+  U->>A: OK ✓ or feedback → update plan / tests & repeat
+```
+
+### Git: commit, push, and `main`
+
+**Framework & CI** usually track **`main`**. **Demo-heavy work** (plans, specs, reports) often lives on **feature branches** (e.g. `ui-test`, `api-test`); merge or cherry-pick to `main` when promoting tooling-only changes.
+
+```mermaid
+flowchart TB
+  VAL[VALIDATE satisfied] --> CM[git commit]
+  CM --> PS[git push origin]
+  PS --> BR{Which branch?}
+  BR -->|feature demo| OF[origin/ui-test · api-test · …]
+  BR -->|framework on main| OM[origin/main]
+  OF -->|PR merge or cherry-pick| OM
+  OM --> CI[CI: .github/workflows]
+```
+
+### How pieces connect
+
+```mermaid
+flowchart TB
+  subgraph ide[Cursor]
+    ORCH[orchestrator.mdc]
+  end
+  subgraph pwagents[Playwright chatmodes]
+    P[Planner]
+    G[Generator]
+    H[Healer]
+  end
+  subgraph auto[Execution]
+    MCP[MCP: playwright-test]
+    PT["@playwright/test"]
+  end
+  ORCH --> pwagents
+  pwagents --> MCP
+  MCP --> PT
+  PT --> SUT[Apps under test]
+```
+
+### Repository map
+
+```mermaid
+flowchart TB
+  subgraph tests["tests/"]
+    E2E["e2e — UI specs"]
+    API["api — HTTP specs"]
+    PLN["plans — Markdown plans"]
+  end
+  subgraph cfg["Config / CI"]
+    PC["playwright.config.ts"]
+    WF[".github/workflows/"]
+    VS[".vscode/mcp.json"]
+  end
+  subgraph agents["Agents"]
+    CR[".cursor/rules/"]
+    CM[".github/chatmodes/"]
+    AG[".agent/"]
+    CL[".claude/skills/"]
+  end
+  RPT["reports/"]
+  PC -.-> tests
+```
+
+---
+
+## Demo targets
+
+| Layer | Default base URL (this branch) | Set in |
+|-------|-------------------------------|--------|
+| UI e2e | [example.com](https://example.com/) placeholder | `DEMO_E2E_BASE_URL` |
+| API | [petstore.swagger.io](https://petstore.swagger.io/) | `DEMO_API_BASE_URL` |
+
+Change URLs in **`playwright.config.ts`** and keep **`tests/plans/*.md`** + specs in sync. See **`main`** / **`ui-test`** for the Saucedemo UI demo (see [`AGENTS.md`](AGENTS.md)).
 
 ## Demo video
-
-GitHub READMEs do not render in-page YouTube iframes; use the preview below to open the video on YouTube.
 
 [![AI QA Agent — demo video](https://img.youtube.com/vi/DmqQSG5dN4o/hqdefault.jpg)](https://www.youtube.com/watch?v=DmqQSG5dN4o)
 
 ---
 
-## Playwright agent files (chatmodes)
+## Use in Cursor
 
-Definitions are aligned with:
+Example prompts:
+
+- **"Run the AI QA Agent loop for saucedemo"**
+- **"Plan → Generate → Test → Heal → Report → Validate petstore API"**
+- **"VALIDATE — UI + API"**
+
+The orchestrator drives: plan in `tests/plans/*.md` → tests in `tests/e2e/` or `tests/api/` → `npm test` → heal failures → `reports/*.md`. For **UI e2e validation**, start from **`npm run test:report`** (trace + video + HTML). **playwright-cli** is optional after that ([`.agent/skills/playwright-cli.md`](.agent/skills/playwright-cli.md)).
+
+---
+
+## Commands
+
+```bash
+npm install
+npm test                 # UI e2e + API
+npm run test:e2e         # Chromium, tests/e2e/
+npm run test:api         # tests/api/
+npm run test:smoke       # @smoke
+npm run test:ci          # CI parity
+```
+
+Full UI evidence (trace, video, screenshots, HTML report):
+
+```bash
+npm run test:clean
+npm run test:report
+```
+
+`npx playwright show-report` — reopen last HTML report.
+
+---
+
+## Playwright chatmodes
 
 ```bash
 npx playwright init-agents --loop=vscode
 ```
 
-| Option | When to use |
-|--------|-------------|
-| `--loop=vscode` | Current default for VS Code / Cursor-style loops |
-| `--loop=vscode-legacy` | If your editor integration expects the older VS Code agent layout |
+| File | Role |
+|------|------|
+| `planner.chatmode.md` | Test planning |
+| `generator.chatmode.md` | Spec generation |
+| `healer.chatmode.md` | Failure recovery |
 
-Files (stable names under `.github/chatmodes/`):
-
-- `planner.chatmode.md`
-- `generator.chatmode.md`
-- `healer.chatmode.md`
-
-The Cursor orchestrator rule treats these as authoritative. Regenerate with `init-agents` when upgrading Playwright if you want upstream’s latest wording — then re-apply any repo-specific tweaks you rely on.
+Regenerate after Playwright upgrades if you want upstream text; re-apply repo-specific edits.
 
 ---
 
-## How to use in Cursor
+## MCP in Cursor
 
-Inside Cursor, run commands such as:
-
-- **"Plan → Generate → Test → Heal → Report → Validate petstore API"**
-- **"VALIDATE — example playwright-cli prompts and questions for UI + API"**
-
-The AI QA Agent orchestrator will then:
-
-1. **PLAN** — Create a test plan in `tests/plans/*.md`
-2. **DEVELOP** — Generate Playwright tests into `tests/e2e/` or `tests/api/`
-3. **TEST** — Run or request `npm test` / `npx playwright test`
-4. **HEAL** — Suggest minimal fixes based on failures (per `healer.chatmode.md`)
-5. **REPORT** — Produce a Markdown test report in `reports/*.md`
-6. **VALIDATE** — For UI work, the agent **always runs `npm run test:report` first** (full e2e **trace + video + screenshots**, opens HTML report) so you **start from the report and traces**; then **`npm run test:api`** / **`npm test`** if needed. **playwright-cli** is **optional** after report review (see `.claude/skills/playwright-cli/`). The agent gives **example prompts**, **asks if you have questions**, and **asks for feedback**. If tests change or you extend coverage, **update the test plan** and run **PLAN → … → VALIDATE** again until you are satisfied.
-
----
-
-## Running tests manually
-
-```bash
-npm install
-npm test                 # all projects (UI e2e + API)
-npm run test:e2e         # Chromium UI tests under tests/e2e/
-npm run test:api         # API tests under tests/api/
-npm run test:smoke       # tests tagged @smoke
-# CI parity: npm run test:ci
-```
-
-**Validation with full evidence (trace + video + screenshots + HTML report):**
-
-```bash
-npm run test:clean       # remove test-results/, playwright-report/, blob-report/
-npm run test:report      # clean, then e2e with PW_REPORT_ALL=1, open report in browser
-```
-
-Re-open the last report anytime: `npx playwright show-report`.
-
-**UI spec files** live under `tests/e2e/` and are named by target (e.g. `checkout.spec.ts`). Do not put style tags like `-bdd` in the filename — see [`.agent/docs/prd.md`](.agent/docs/prd.md).
-
-**Base URLs** live in **`playwright.config.ts`** (`DEMO_E2E_BASE_URL`, `DEMO_API_BASE_URL`). On this branch the API demo is **Petstore**; change both constants and **`tests/plans/*.md`** when you point at other environments.
-
-Targeted runs: `npm run test:e2e`, `npm run test:api`, `npm run test:smoke` (see [`.agent/docs/prd.md`](.agent/docs/prd.md) for the full agentic QA roadmap).
-
----
-
-## Configuring MCP in Cursor IDE
-
-Cursor supports MCP (Model Context Protocol) servers at two levels.
-
-### Project-level configuration
-
-Place `.vscode/mcp.json` in your project (included in this repo):
+Project file: **`.vscode/mcp.json`**. Server name must be **`playwright-test`** (tools like `playwright-test/browser_click`).
 
 ```json
 {
@@ -115,88 +206,19 @@ Place `.vscode/mcp.json` in your project (included in this repo):
 }
 ```
 
-> **Important:** The server name must be `playwright-test` so tool names match the chatmode files (for example `playwright-test/browser_click`).
-
-For reproducible behavior across machines, pin a version instead of `@latest`, for example `"@playwright/mcp@0.0.70"`, and bump it deliberately when you upgrade.
-
-### User-level (global) configuration
-
-For MCP servers available across all projects, edit your global Cursor config:
-
-| OS | Path |
-|----|------|
-| **Windows** | `C:\Users\<username>\.cursor\mcp.json` |
-| **macOS** | `~/.cursor/mcp.json` |
-| **Linux** | `~/.cursor/mcp.json` |
-
-Example global `mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "playwright-test": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    },
-    "my-remote-server": {
-      "url": "https://example.com/mcp",
-      "headers": {}
-    }
-  }
-}
-```
-
-### MCP server types
-
-| Type | Config | Example |
-|------|--------|---------|
-| **stdio** (local) | `command` + `args` | `playwright-test` |
-| **HTTP/SSE** (remote) | `url` + optional `headers` | Remote MCP servers |
-
-### Verifying MCP status in Cursor
-
-1. Open **Settings** (Ctrl+,)
-2. Open the **MCP** section
-3. Check server status (connected vs error; use Output → MCP logs if needed)
-
-### Troubleshooting
-
-```powershell
-# Clear npx cache if MCP server fails to start
-Remove-Item -Recurse -Force "$env:LOCALAPPDATA\npm-cache\_npx"
-
-# Restart Cursor to reload MCP configuration
-```
+Pin `@playwright/mcp@…` instead of `@latest` for reproducibility. Global config: `~/.cursor/mcp.json` (Windows: `C:\Users\<you>\.cursor\mcp.json`). Troubleshooting: clear npx cache, restart Cursor (see [`AGENTS.md`](AGENTS.md)).
 
 ---
 
-## Upgrading Playwright
+## Upgrade Playwright
 
-1. Bump `@playwright/test` in `package.json` (or `npm install @playwright/test@latest --save-dev`).
-2. Run `npx playwright install` so browsers match the new version.
-3. Optionally re-run `npx playwright init-agents --loop=vscode` and diff chatmodes against this repo.
-4. Align `@playwright/mcp` (see above) with a version compatible with your Playwright release.
+1. `npm install @playwright/test@latest --save-dev`
+2. `npx playwright install`
+3. Optional: `npx playwright init-agents --loop=vscode` and diff chatmodes
+4. Align `@playwright/mcp` with your Playwright version
 
 ---
 
 ## Roadmap
 
-Production-hardening ideas, implementation status, and next steps: **[`.agent/docs/prd.md`](.agent/docs/prd.md)** (section *What could be improved in this agentic QA workflow*).
-
----
-
-## Repository layout (reference)
-
-| Path | Role |
-|------|------|
-| `AGENTS.md` | Short pointers for tools / agents (orchestrator, PRD, `.agent/`) |
-| `.cursor/rules/orchestrator.mdc` | **Orchestrator rule** (single copy; Cursor loads this) |
-| `.agent/skills/qa-workflow.md` | Short workflow skill for agents |
-| `.agent/skills/playwright-cli.md` | VALIDATE phase + pointers to **playwright-cli** |
-| `.claude/skills/playwright-cli/` | Default [playwright-cli](https://playwright.dev/docs/getting-started-cli) skills (`npm run playwright-cli:skills` to refresh) |
-| `.agent/docs/prd.md` | Product requirements and roadmap |
-| `.github/chatmodes/*.chatmode.md` | Planner / Generator / Healer definitions |
-| `.github/workflows/playwright.yml` | CI smoke run (Chromium) |
-| `.vscode/mcp.json` | Project MCP server for Playwright |
-| `playwright.config.ts` | `DEMO_E2E_BASE_URL` / `DEMO_API_BASE_URL` for bundled demos |
-| `tests/` | Playwright tests (`e2e/` UI, `api/` REST) |
+Status and improvements: **[`.agent/docs/prd.md`](.agent/docs/prd.md)** (*What could be improved in this agentic QA workflow*).
