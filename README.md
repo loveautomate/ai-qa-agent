@@ -26,6 +26,41 @@ flowchart LR
   F -->|feedback: revise plan & re-enter loop| A
 ```
 
+### Sequence diagram (agentic loop + VALIDATE gate)
+
+Interaction-level view: **VALIDATE** is its own step to the right of **`npm test`**; the human reviews evidence and signs off or sends feedback.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant A as AI QA Agent
+  participant M as Playwright MCP
+  participant S as Test specs
+  participant N as npm test
+  participant V as VALIDATE
+
+  U->>A: Goal
+  A->>M: Snapshot / analyze UI
+  M-->>A: Locators & structure
+  A->>S: Write / edit tests
+  A->>N: Run suite
+  N-->>A: Results + HTML report
+
+  U->>A: Failures → heal
+  A->>M: Inspect UI
+  M-->>A: Heal context
+  A->>S: Minimal fixes
+  A->>N: Re-run until green
+
+  A-->>U: Markdown report (reports/)
+
+  Note over A,V: Human in the loop
+  A->>V: Evidence + Q&A (HTML report, traces)
+  U->>V: Review & sign-off
+  U->>A: OK ✓ or feedback → update plan / tests & repeat
+```
+
 ### Git: commit, push, and `main`
 
 **Framework & CI** usually track **`main`**. **Demo-heavy work** (plans, specs, reports) often lives on **feature branches** (e.g. `ui-test`, `api-test`); merge or cherry-pick to `main` when promoting tooling-only changes.
