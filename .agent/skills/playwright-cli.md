@@ -1,5 +1,6 @@
 # Skill reference: **playwright-cli** (optional — Phase VALIDATE)
 
+- **Repo overview (architecture diagrams):** [README.md](../../README.md#architecture)
 - **Official doc:** [Coding agents — playwright-cli](https://playwright.dev/docs/getting-started-cli)
 - **Installed skill (default path):** [`.claude/skills/playwright-cli/SKILL.md`](../../.claude/skills/playwright-cli/SKILL.md) — command reference and `references/`
 - **Refresh skills:** `npm run playwright-cli:skills` (runs `playwright-cli install --skills` into `.claude/skills/`)

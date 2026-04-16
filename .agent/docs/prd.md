@@ -1,5 +1,7 @@
 # PRD – AI QA Agent
 
+**Workflow and repository diagrams:** see the root [README.md](../../README.md#architecture).
+
 ## Purpose
 
 Demonstrate a simple, minimal Agentic QA Workflow using:
